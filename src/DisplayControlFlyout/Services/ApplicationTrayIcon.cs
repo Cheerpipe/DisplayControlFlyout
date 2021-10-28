@@ -20,6 +20,8 @@ namespace DisplayControlFlyout.Services
             NativeMenuItem exitMenu = new NativeMenuItem("Exit Display Control Flyout");
             exitMenu.Click += ExitMenu_Click;
             TrayIcon.Menu.Items.Add(exitMenu);
+
+            MainWindow.Preload();
         }
 
         private void ExitMenu_Click(object? sender, EventArgs e)
@@ -29,13 +31,7 @@ namespace DisplayControlFlyout.Services
 
         private void TrayIcon_Clicked(object? sender, System.EventArgs e)
         {
-            if (Program.MainWindowInstance == null)
-            {
-                Program.MainWindowInstance = new MainWindow();
-                MainWindow flyout = Program.MainWindowInstance;
-                flyout.DataContext = new DisplayControlViewModel();
-                flyout.ShowAnimated();
-            }
+            MainWindow.CreateAndShow();
         }
 
         public void UpdateIcon()

@@ -18,8 +18,9 @@ namespace DisplayControlFlyout.UserControls
 
         private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            if (Program.MainWindowInstance.IsVisible)
-                Program.MainWindowInstance.CloseAnimated();
+            if (Program.MainWindowInstance != null)
+                if (Program.MainWindowInstance.IsVisible)
+                    Program.MainWindowInstance.CloseAnimated();
         }
     }
 }

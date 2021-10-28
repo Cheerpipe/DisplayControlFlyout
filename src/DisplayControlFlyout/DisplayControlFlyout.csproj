@@ -50,7 +50,9 @@
     <EmbeddedResource Include="Assets\single.png" />
     <EmbeddedResource Include="Assets\tv.png" />
   </ItemGroup>
-
+  <PropertyGroup>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.8" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.8" />

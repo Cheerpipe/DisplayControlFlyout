@@ -7,6 +7,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using DisplayControlFlyout.Services;
+using DisplayControlFlyout.ViewModels;
 using RoutedEventArgs = Avalonia.Interactivity.RoutedEventArgs;
 using Window = Avalonia.Controls.Window;
 
@@ -14,9 +15,11 @@ namespace DisplayControlFlyout.Views
 {
     public partial class MainWindow : Window
     {
+        private const int FlyoutHorizontalSpacing = 12;
+        private const int FlyoutVerticalSpacing = 25;
         private const int AnimationDelay = 200;
-        private const int FlyoutWidth = 280+13;
-        private const int FlyoutHeight = 485 + 13;
+        private const int FlyoutWidth = 280 + FlyoutHorizontalSpacing;
+        private const int FlyoutHeight = 475 + FlyoutVerticalSpacing;
 
         public MainWindow()
         {
@@ -73,7 +76,7 @@ namespace DisplayControlFlyout.Views
             };
 
             t.Apply(filler, Avalonia.Animation.Clock.GlobalClock, 0d, (double)FlyoutWidth);
-            
+
             // -10 is enough to avoid windows flashing
             await Task.Delay(AnimationDelay - 10);
             Close();
@@ -95,6 +98,27 @@ namespace DisplayControlFlyout.Views
         private void BtnDisplaySettings_OnClick(object? sender, RoutedEventArgs e)
         {
             Windows.Run("cmd", " /k start ms-settings:display && exit");
+        }
+
+        public static void CreateAndShow()
+        {
+            if (Program.MainWindowInstance == null)
+            {
+                Program.MainWindowInstance = new MainWindow();
+                MainWindow flyout = Program.MainWindowInstance;
+                flyout.DataContext = new DisplayControlViewModel();
+            }
+            Program.MainWindowInstance.ShowAnimated();
+        }
+
+        public static async void Preload()
+        {
+            var prelodWindow = new MainWindow();
+            prelodWindow.DataContext = new DisplayControlViewModel();
+            prelodWindow.Opacity = 0;
+            prelodWindow.ShowAnimated();
+            await Task.Delay(2000);
+            prelodWindow.Close();
         }
     }
 }
