@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DisplayControlFlyout.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="390"
+             x:Class="DisplayControlFlyout.UserControls.DisplayControl"
+            Background="Transparent">
+  <Design.DataContext>
+    <vm:DisplayControlViewModel/>
+  </Design.DataContext>
+  <!-- Flyout content start-->
+  <Panel >
+    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+      <ListBox Items="{Binding ApplicableDisplayModes}" Width="250" SelectedItem="{Binding SelectedApplicableDisplayMode}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Border  CornerRadius="4" Padding="4">
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                <Image Source="{Binding Image}" Width="24"/>
+                <TextBlock Text="{Binding DisplayName}"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <Separator Height="40"/>
+      <!-- Action buttons -->
+      <Grid ColumnDefinitions="130,130" RowDefinitions="Auto,40,Auto,Auto"  Margin="0">
+        <ToggleButton
+          Name="BtnGlobalHDR"
+          Grid.Row="0"
+          Grid.Column="0"
+          Width="110"
+          Height="48"
+          HorizontalAlignment="Center"
+          IsChecked="{Binding GlobalHDR}">
+          <avalonia:MaterialIcon
+            Kind="Hdr"
+            Width="44"
+            Height="44"/>
+        </ToggleButton>
+        <ToggleButton
+          Name="BtnTelevision"
+          Grid.Row="0"
+          Grid.Column="1"
+          Width="110"
+          Height="48"
+          HorizontalAlignment="Center"
+          IsChecked="{Binding Television}">
+          <avalonia:MaterialIcon
+            Kind="Television"
+            Width="24"
+            Height="24"/>
+        </ToggleButton>
+        <TextBlock
+          Grid.Row="1"
+          Grid.Column="0"
+          HorizontalAlignment="Center"
+          Padding="0 5 0 0"
+          FontSize="12">
+          Global HDR
+        </TextBlock>
+        <TextBlock
+          Grid.Row="1"
+          Grid.Column="1"
+          HorizontalAlignment="Center"
+          Padding="0 5 0 0"
+          FontSize="12">
+          Television
+        </TextBlock>
+      </Grid>
+      <!-- Action buttons -->
+    </StackPanel>
+  </Panel>
+  <!-- Flyout content End-->
+</UserControl>

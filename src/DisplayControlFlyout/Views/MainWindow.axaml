@@ -1,0 +1,91 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DisplayControlFlyout.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
+        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="485"
+        x:Class="DisplayControlFlyout.Views.MainWindow"
+        Title="Display Control Flyout"
+        ShowInTaskbar="false"
+        CanResize="False"
+        Topmost="True"
+        SystemDecorations="BorderOnly"
+        TransparencyLevelHint="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        Background="Transparent"
+        UseLayoutRounding="False">
+  <Design.DataContext>
+    <vm:DisplayControlViewModel/>
+  </Design.DataContext>
+  <DockPanel Background="Transparent" Width="360" Height="485" HorizontalAlignment="Left">
+    <Separator Width="0" Background="Transparent" Height="0" Name="SepAnimationFiller"/>
+    <Panel Background="Transparent" Width="280" HorizontalAlignment="Left">
+      <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
+        <ExperimentalAcrylicBorder.Material>
+          <ExperimentalAcrylicMaterial
+              BackgroundSource="None"
+              TintColor="Black"
+              TintOpacity="0.75"
+              MaterialOpacity="0.85"/>
+        </ExperimentalAcrylicBorder.Material>
+        <Border CornerRadius="10 10 10 10"
+                BorderBrush="#414141"
+                BorderThickness="1"
+                ClipToBounds="False"
+                Background="Transparent"
+                BoxShadow="3 4 0 0 #64000000">
+          <StackPanel >
+            <Separator Height="5"/>
+            <Panel Width="350" Height="430" >
+              <!-- Flyout content start -->
+              <uc:DisplayControl Padding="0 15 0 15"/>
+              <!-- Flyout content End-->
+            </Panel>
+            <Border CornerRadius="0 0 10 10"
+                    BorderBrush="#414141"
+                    BorderThickness="0"
+                    ClipToBounds="True"
+                    Background="Transparent"
+                    VerticalAlignment="Bottom">
+              <StackPanel
+                  Background="#44000000"
+                  HorizontalAlignment="Right"
+                  Height="48"
+                  Width="280">
+                <StackPanel
+                  Background="Transparent"
+                  HorizontalAlignment="Right"
+                  Height="48">
+                  <DockPanel
+                      Height="48"
+                      Background="Transparent"
+                      Margin="0 0 5 0">
+                    <Button HorizontalAlignment="Right"
+                            Name="BtnDisplaySettings"
+                            Height="36"
+                            Width="36"
+                            Margin="0 0 0 0"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="BtnDisplaySettings_OnClick">
+                      <avalonia:MaterialIcon
+                          Kind="CogOutline"
+                          Width="16"
+                          Height="16"
+                          Foreground="LightGray"/>
+                    </Button>
+                  </DockPanel>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Border>
+      </ExperimentalAcrylicBorder>
+    </Panel>
+  </DockPanel>
+
+</Window>
