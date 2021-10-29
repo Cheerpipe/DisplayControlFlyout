@@ -5,26 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
-        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="475"
+        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="455"
         x:Class="DisplayControlFlyout.Views.MainWindow"
         Title="Display Control Flyout"
         ShowInTaskbar="false"
         CanResize="False"
         Topmost="True"
         SystemDecorations="BorderOnly"
+        Background="Transparent"
         TransparencyLevelHint="Transparent"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
-        Background="Transparent"
         UseLayoutRounding="False">
-  <Design.DataContext>
-    <vm:DisplayControlViewModel/>
-  </Design.DataContext>
-  <DockPanel Background="Transparent" Width="360" Height="475" HorizontalAlignment="Left">
-    <Separator Width="0" Background="Transparent" Height="0" Name="SepAnimationFiller"/>
-    <Panel Background="Transparent" Width="280" HorizontalAlignment="Left">
-      <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
+    <Design.DataContext>
+        <vm:DisplayControlViewModel/>
+    </Design.DataContext>
+    <DockPanel Width="560" Height="455" HorizontalAlignment="Left" >
+        <Separator Width="0" Name="SepAnimationFiller"/>
+        <Panel HorizontalAlignment="Left">
+            <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
         <ExperimentalAcrylicBorder.Material>
           <ExperimentalAcrylicMaterial
               BackgroundSource="None"
@@ -36,26 +36,24 @@
                 BorderBrush="#414141"
                 BorderThickness="1"
                 ClipToBounds="False"
-                Background="Transparent"
-                BoxShadow="3 4 0 0 #64000000">
-          <StackPanel >
-            <Separator Height="5"/>
-            <Panel Width="280" Height="420" >
+                BoxShadow="3 3 0 0 #64000000">
+          <DockPanel>
+            <Panel DockPanel.Dock="Top">
               <!-- Flyout content start -->
-              <uc:DisplayControl Padding="0 15 0 15"/>
+              <uc:DisplayControl Padding="0 0 0 0"/>
               <!-- Flyout content End-->
             </Panel>
             <Border CornerRadius="0 0 10 10"
-                    BorderBrush="#414141"
                     BorderThickness="0"
                     ClipToBounds="True"
                     Background="Transparent"
-                    VerticalAlignment="Bottom">
+                    VerticalAlignment="Bottom"
+                    DockPanel.Dock="Bottom">
               <StackPanel
-                  Background="#44000000"
                   HorizontalAlignment="Right"
                   Height="48"
-                  Width="280">
+                  Width="280"
+                  Background="#35000000">
                 <StackPanel
                   Background="Transparent"
                   HorizontalAlignment="Right"
@@ -82,7 +80,7 @@
                 </StackPanel>
               </StackPanel>
             </Border>
-          </StackPanel>
+          </DockPanel>
         </Border>
       </ExperimentalAcrylicBorder>
     </Panel>
