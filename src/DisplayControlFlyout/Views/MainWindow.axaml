@@ -40,7 +40,7 @@
                 BoxShadow="3 4 0 0 #64000000">
           <StackPanel >
             <Separator Height="5"/>
-            <Panel Width="350" Height="420" >
+            <Panel Width="280" Height="420" >
               <!-- Flyout content start -->
               <uc:DisplayControl Padding="0 15 0 15"/>
               <!-- Flyout content End-->
