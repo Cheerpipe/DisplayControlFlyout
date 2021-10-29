@@ -20,8 +20,6 @@ namespace DisplayControlFlyout.Services
             NativeMenuItem exitMenu = new NativeMenuItem("Exit Display Control Flyout");
             exitMenu.Click += ExitMenu_Click;
             TrayIcon.Menu.Items.Add(exitMenu);
-
-            MainWindow.Preload();
         }
 
         private void ExitMenu_Click(object? sender, EventArgs e)

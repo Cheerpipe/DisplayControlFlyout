@@ -13,7 +13,7 @@
   <!-- Flyout content start-->
   <Panel>
     <StackPanel >
-    <StackPanel Margin="10 10 10 20">
+    <StackPanel Margin="0 0 0 20">
         <ListBox Items="{Binding ApplicableDisplayModes}"  SelectedItem="{Binding SelectedApplicableDisplayMode}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
           <DataTemplate>
@@ -28,7 +28,7 @@
       </ListBox>
     </StackPanel>
       <!-- Action buttons -->
-    <StackPanel Margin="10 10 10 10">
+    <StackPanel Margin="0 10 0 0">
       <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,40,Auto,Auto">
         <ToggleButton
           Name="BtnGlobalHDR"

@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
@@ -111,14 +112,15 @@ namespace DisplayControlFlyout.Views
             Program.MainWindowInstance.ShowAnimated();
         }
 
-        public static async void Preload()
+        public static  void Preload()
         {
             var prelodWindow = new MainWindow();
             prelodWindow.DataContext = new DisplayControlViewModel();
             prelodWindow.Opacity = 0;
             prelodWindow.ShowAnimated();
-            await Task.Delay(2000);
+            Thread.Sleep(500);
             prelodWindow.Close();
+            Thread.Sleep(500);
         }
     }
 }

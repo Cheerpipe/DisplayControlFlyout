@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
-        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="455"
+        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="480"
         x:Class="DisplayControlFlyout.Views.MainWindow"
         Title="Display Control Flyout"
         ShowInTaskbar="false"
@@ -18,13 +18,13 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         UseLayoutRounding="False">
-    <Design.DataContext>
-        <vm:DisplayControlViewModel/>
-    </Design.DataContext>
-    <DockPanel Width="560" Height="455" HorizontalAlignment="Left" >
-        <Separator Width="0" Name="SepAnimationFiller"/>
-        <Panel HorizontalAlignment="Left">
-            <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
+  <Design.DataContext>
+    <vm:DisplayControlViewModel/>
+  </Design.DataContext>
+  <DockPanel Width="560" Height="455" HorizontalAlignment="Left" >
+    <Separator Width="0" Name="SepAnimationFiller"/>
+    <Panel HorizontalAlignment="Left">
+      <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
         <ExperimentalAcrylicBorder.Material>
           <ExperimentalAcrylicMaterial
               BackgroundSource="None"
@@ -38,9 +38,9 @@
                 ClipToBounds="False"
                 BoxShadow="3 3 0 0 #64000000">
           <DockPanel>
-            <Panel DockPanel.Dock="Top">
+            <Panel DockPanel.Dock="Top" Margin="10 10 10 0">
               <!-- Flyout content start -->
-              <uc:DisplayControl Padding="0 0 0 0"/>
+              <uc:DisplayControl />
               <!-- Flyout content End-->
             </Panel>
             <Border CornerRadius="0 0 10 10"

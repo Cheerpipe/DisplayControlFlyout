@@ -42,7 +42,7 @@ namespace DisplayControlFlyout
             // Do you startup code here
 
             Television.StartMonitor();
-
+            MainWindow.Preload();
             ApplicationTrayIcon applicationTrayIconInstance = new ApplicationTrayIcon();
             ApplicationTrayIconInstance = applicationTrayIconInstance;
             ApplicationTrayIconInstance.UpdateIcon();
