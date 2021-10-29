@@ -4,16 +4,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="390"
+             mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="400"
              x:Class="DisplayControlFlyout.UserControls.DisplayControl"
             Background="Transparent">
   <Design.DataContext>
     <vm:DisplayControlViewModel/>
   </Design.DataContext>
   <!-- Flyout content start-->
-  <Panel >
-    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
-      <ListBox Items="{Binding ApplicableDisplayModes}" Width="250" SelectedItem="{Binding SelectedApplicableDisplayMode}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+  <Panel>
+    <StackPanel >
+    <StackPanel Margin="10 10 10 20">
+        <ListBox Items="{Binding ApplicableDisplayModes}"  SelectedItem="{Binding SelectedApplicableDisplayMode}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Border  CornerRadius="4" Padding="4">
@@ -25,9 +26,10 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
-      <Separator Height="40"/>
+    </StackPanel>
       <!-- Action buttons -->
-      <Grid ColumnDefinitions="130,130" RowDefinitions="Auto,40,Auto,Auto"  Margin="0">
+    <StackPanel Margin="10 10 10 10">
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,40,Auto,Auto">
         <ToggleButton
           Name="BtnGlobalHDR"
           Grid.Row="0"
@@ -71,6 +73,7 @@
           Television
         </TextBlock>
       </Grid>
+    </StackPanel>
       <!-- Action buttons -->
     </StackPanel>
   </Panel>
