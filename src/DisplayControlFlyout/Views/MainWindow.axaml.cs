@@ -20,7 +20,7 @@ namespace DisplayControlFlyout.Views
         private const int FlyoutVerticalSpacing = 25;
         private const int AnimationDelay = 200;
         private const int FlyoutWidth = 280 + FlyoutHorizontalSpacing;
-        private const int FlyoutHeight = 455 + FlyoutVerticalSpacing;
+        private const int FlyoutHeight = 475 + FlyoutVerticalSpacing;
 
         public MainWindow()
         {
