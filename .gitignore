@@ -2,3 +2,9 @@
 src/.vs/DisplayControlFlyout/v16/.suo
 
 src/.vs/DisplayControlFlyout/DesignTimeBuild/.dtbcache.v2
+
+*.v2
+
+*.v1
+
+src/.vs/DisplayControlFlyout/v17/.suo
