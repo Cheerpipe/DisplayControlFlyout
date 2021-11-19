@@ -35,6 +35,9 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Assets\duplicated_single.png" />
     <EmbeddedResource Include="Assets\extendeds_plus_duplicated.png" />
     <EmbeddedResource Include="Assets\extended_all.png" />
@@ -52,6 +55,7 @@
   </ItemGroup>
   <PropertyGroup>
     <PublishReadyToRun>true</PublishReadyToRun>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.10" />
