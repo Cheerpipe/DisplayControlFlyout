@@ -29,7 +29,7 @@
           <ExperimentalAcrylicMaterial
               BackgroundSource="None"
               TintColor="Black"
-              TintOpacity="0.75"
+              TintOpacity="0.8"
               MaterialOpacity="0.85"/>
         </ExperimentalAcrylicBorder.Material>
         <Border CornerRadius="10 10 10 10"
