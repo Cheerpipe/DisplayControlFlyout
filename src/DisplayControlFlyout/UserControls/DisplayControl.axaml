@@ -19,8 +19,8 @@
           <DataTemplate>
             <Border  CornerRadius="4" Padding="4">
               <StackPanel Orientation="Horizontal" Spacing="10">
-                <Image Source="{Binding Image}" Width="24"/>
-                <TextBlock Text="{Binding DisplayName}"/>
+                <Image Source="{Binding Image}" Width="48"/>
+                <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
               </StackPanel>
             </Border>
           </DataTemplate>

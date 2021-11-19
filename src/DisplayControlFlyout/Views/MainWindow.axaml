@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
-        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="500"
+        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="600"
         x:Class="DisplayControlFlyout.Views.MainWindow"
         Title="Display Control Flyout"
         ShowInTaskbar="false"
@@ -21,7 +21,7 @@
   <Design.DataContext>
     <vm:DisplayControlViewModel/>
   </Design.DataContext>
-  <DockPanel Width="560" Height="475" HorizontalAlignment="Left" >
+  <DockPanel Width="560" Height="580" HorizontalAlignment="Left" >
     <Separator Width="0" Name="SepAnimationFiller"/>
     <Panel HorizontalAlignment="Left">
       <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
