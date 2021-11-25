@@ -44,14 +44,11 @@ namespace DisplayControlFlyout.Views
         public int ResizeAnimationDelay { get; set; } = 200;
         public int FlyoutSpacing { get; set; } = 12;
 
-        Panel _flyoutPanelContainer;
-
         public async Task ShowAnimated(bool isPreload = false)
         {
-            _flyoutPanelContainer = this.Find<Panel>("FlyoutPanelContainer");
-            _flyoutPanelContainer.PointerPressed += FlyoutPanelContainer_PointerPressed;
-            _flyoutPanelContainer.PointerReleased += FlyoutPanelContainer_PointerReleased;
-            _flyoutPanelContainer.PointerMoved += FlyoutPanelContainer_PointerMoved;
+            PointerPressed += FlyoutPanelContainer_PointerPressed;
+            PointerReleased += FlyoutPanelContainer_PointerReleased;
+            PointerMoved += FlyoutPanelContainer_PointerMoved;
 
             PropertyChanged += FlyoutWindow_PropertyChanged;
 
@@ -87,11 +84,10 @@ namespace DisplayControlFlyout.Views
         private async void FlyoutPanelContainer_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
             _isOnDrag = false;
-
-            if (HorizontalPosition >= (this.Width) / 2)
+            if (VerticalPosition >= GetTargetVerticalPosition() + GetTargetVerticalPosition() * 0.1f)
                 await CloseAnimated(CloseAnimationDelay);
             else
-                HorizontalPosition = 0;
+                VerticalPosition = GetTargetVerticalPosition();
         }
 
         private double _previousPosition;
@@ -100,22 +96,28 @@ namespace DisplayControlFlyout.Views
         {
             if (!_isOnDrag)
             {
-                _previousPosition = e.GetPosition(this).X;
+                _previousPosition = e.GetPosition(this).Y;
                 return;
             }
 
             if (e.Pointer.IsPrimary)
             {
-                _currentPosition = e.GetPosition(this).X;
+                _currentPosition = this.PointToScreen(e.GetPosition(this)).Y;
                 double delta = _previousPosition - _currentPosition;
                 _previousPosition = _currentPosition;
 
-                if ((_currentPosition < 0) || (HorizontalPosition <= 0 && delta > 0))
+                if (VerticalPosition <= GetTargetVerticalPosition() && delta > 0)
+                {
+                    VerticalPosition = GetTargetVerticalPosition();
                     return;
-                HorizontalPosition = HorizontalPosition - (int)delta;
-            }
+                }
 
+
+                VerticalPosition -= (int)delta;
+            }
         }
+
+        public int GetTargetVerticalPosition() => _screenHeight - (int)(Height + FlyoutSpacing);
 
         private bool _isOnDrag;
         private void FlyoutPanelContainer_PointerPressed(object sender, PointerPressedEventArgs e)
@@ -128,7 +130,7 @@ namespace DisplayControlFlyout.Views
                 case TextBlock:
                     return;
                 default:
-                    _previousPosition = e.GetPosition(this).X;
+                    _previousPosition = this.PointToScreen(e.GetPosition(this)).Y;
                     _isOnDrag = true;
                     break;
             }
@@ -145,7 +147,7 @@ namespace DisplayControlFlyout.Views
                 Easing = new CircularEaseIn(),
             };
 
-            closeTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, _screenHeight - (int)(Height + FlyoutSpacing), _screenHeight);
+            closeTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, VerticalPosition, _screenHeight);
             await Task.Delay(CloseAnimationDelay);
             Close();
         }
