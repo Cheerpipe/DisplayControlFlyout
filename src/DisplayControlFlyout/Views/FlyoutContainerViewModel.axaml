@@ -5,32 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
-        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="600"
-        x:Class="DisplayControlFlyout.Views.MainWindow"
+        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="650"
+        x:Class="DisplayControlFlyout.Views.FlyoutContainer"
         Title="Display Control Flyout"
         ShowInTaskbar="false"
         CanResize="False"
-        Topmost="True"
+        Topmost="False"
         SystemDecorations="BorderOnly"
         Background="Transparent"
-        TransparencyLevelHint="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         UseLayoutRounding="False">
   <Design.DataContext>
-    <vm:DisplayControlViewModel/>
+    <vm:FlyoutContainerViewModel/>
   </Design.DataContext>
   <DockPanel Width="560" Height="580" HorizontalAlignment="Left" >
     <Separator Width="0" Name="SepAnimationFiller"/>
-    <Panel HorizontalAlignment="Left">
+    <Panel HorizontalAlignment="Left" Name="FlyoutPanelContainer">
       <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
         <ExperimentalAcrylicBorder.Material>
           <ExperimentalAcrylicMaterial
               BackgroundSource="None"
               TintColor="Black"
               TintOpacity="0.8"
-              MaterialOpacity="0.85"/>
+              MaterialOpacity="0.65"/>
         </ExperimentalAcrylicBorder.Material>
         <Border CornerRadius="10 10 10 10"
                 BorderBrush="#414141"

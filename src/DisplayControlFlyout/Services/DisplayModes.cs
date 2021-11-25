@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace DisplayControlFlyout.Services
         private const string MonitorSwitcherPath = @"D:\Warez\Utiles\MonitorProfileSwitcher_v0700\MonitorSwitcher.exe";
         private const int SetNewModeTimeout = 20;
         private const int SetNewModeSucessCount = 5;
+        private const int ModeChangeRetryDelay = 500;
+        private const int ModeChangeRetryTimeout = 15000;
         public static DisplayMode GetCurrentMode()
         {
             try
@@ -60,6 +63,9 @@ namespace DisplayControlFlyout.Services
             int secondsCount = 0;
             int successCount = 0;
 
+            Stopwatch timeoutWatch = new Stopwatch();
+            timeoutWatch.Start();
+
             switch (mode)
             {
                 case DisplayMode.Single:
@@ -68,8 +74,9 @@ namespace DisplayControlFlyout.Services
                         {
                             Windows.Run(MonitorSwitcherPath, @"""-load:C:\Users\cheer\AppData\Roaming\MonitorSwitcher\profiles\Single.xml""");
                             retryCount++;
-                            await Task.Delay(1000);
+                            await Task.Delay(ModeChangeRetryDelay);
                         } while (DisplayManager.GetCurrentMode() != DisplayMode.Single && retryCount < maxRetry);
+
                     //ShowToast(DisplayMode.Single);
                     if (retryCount < maxRetry)
                         for (int i = 1; i < 3; i++)
@@ -109,10 +116,10 @@ namespace DisplayControlFlyout.Services
                             return;
                         }
 
-                        await Task.Delay(1000);
+                        await Task.Delay(ModeChangeRetryDelay);
                         secondsCount++;
+                    } while (timeoutWatch.ElapsedMilliseconds < ModeChangeRetryTimeout);
 
-                    } while (true);
 
                     if (retryCount < maxRetry)
                         for (int i = 1; i < 3; i++)
@@ -127,7 +134,7 @@ namespace DisplayControlFlyout.Services
                         {
                             Windows.Run(MonitorSwitcherPath, @"""-load:C:\Users\cheer\AppData\Roaming\MonitorSwitcher\profiles\Extended all.xml""");
                             retryCount++;
-                            await Task.Delay(1000);
+                            await Task.Delay(ModeChangeRetryDelay);
                         } while (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedAll && retryCount < maxRetry);
                     //ShowToast(DisplayMode.ExtendedAll);
 
@@ -147,7 +154,7 @@ namespace DisplayControlFlyout.Services
                         {
                             Windows.Run(MonitorSwitcherPath, @"""-load:C:\Users\cheer\AppData\Roaming\MonitorSwitcher\profiles\Extended horizontal duplicated vertical.xml""");
                             retryCount++;
-                            await Task.Delay(1000);
+                            await Task.Delay(ModeChangeRetryDelay);
                         } while (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedHorizontalDuplicatedVertical && retryCount < maxRetry);
                     //ShowToast(DisplayMode.ExtendedHorizontalDuplicatedVertical);
 

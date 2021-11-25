@@ -9,10 +9,10 @@ using DisplayControlFlyout.Services;
 
 namespace DisplayControlFlyout.ViewModels
 {
-    public class DisplayControlViewModel : ViewModelBase
+    public class FlyoutContainerViewModel : ViewModelBase
     {
         private List<ApplicableDisplayMode> _applicableDisplayModes;
-        public DisplayControlViewModel()
+        public FlyoutContainerViewModel()
         {
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 

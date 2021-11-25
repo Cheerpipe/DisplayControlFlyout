@@ -4,7 +4,6 @@ namespace DisplayControlFlyout.Services
 {
     public class Windows
     {
-
         public static void Run(string commandLine, string arguments = "")
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -12,7 +11,7 @@ namespace DisplayControlFlyout.Services
             startInfo.Arguments = arguments;
             startInfo.WindowStyle = ProcessWindowStyle.Hidden; //Hides GUI
             startInfo.CreateNoWindow = true; //Hides console
-            Process process = new Process();
+            using Process process = new Process();
             process.StartInfo = startInfo;
             process.Start();
         }
