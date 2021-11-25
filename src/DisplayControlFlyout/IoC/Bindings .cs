@@ -1,4 +1,5 @@
 ﻿using ArtemisFlyout.Services;
+using DisplayControlFlyout.Services.IMonitorServices;
 using DisplayControlFlyout.Services.TrayIcon;
 using Ninject.Modules;
 
@@ -10,6 +11,7 @@ namespace ArtemisFlyout.IoC
         {
             Bind<ITrayIconService>().To<TrayIconService>().InSingletonScope();
             Bind<IFlyoutService>().To<FlyoutService>().InSingletonScope();
+            Bind<IMonitorService>().To<MonitorService>().InSingletonScope();
         }
     }
 }

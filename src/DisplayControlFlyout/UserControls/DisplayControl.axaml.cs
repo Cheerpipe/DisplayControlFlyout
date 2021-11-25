@@ -16,7 +16,7 @@ namespace DisplayControlFlyout.UserControls
             AvaloniaXamlLoader.Load(this);
         }
 
-        private void SelectingItemsControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+        private void SelectingItemsControl_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
                   //  Program.MainWindowInstance.CloseAnimated();

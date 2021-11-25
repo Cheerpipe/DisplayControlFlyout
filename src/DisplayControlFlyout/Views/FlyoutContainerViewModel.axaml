@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
-        mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="650"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="650"
         x:Class="DisplayControlFlyout.Views.FlyoutContainer"
         Title="Display Control Flyout"
         ShowInTaskbar="false"
@@ -18,11 +18,8 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         UseLayoutRounding="False">
-  <Design.DataContext>
-    <vm:FlyoutContainerViewModel/>
-  </Design.DataContext>
-  <DockPanel Width="560" Height="580" HorizontalAlignment="Left" >
-    <Separator Width="0" Name="SepAnimationFiller"/>
+
+  <DockPanel Width="300" Height="650" HorizontalAlignment="Left" >
     <Panel HorizontalAlignment="Left" Name="FlyoutPanelContainer">
       <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
         <ExperimentalAcrylicBorder.Material>
@@ -40,8 +37,10 @@
           <DockPanel>
             <Panel DockPanel.Dock="Top" Margin="15 25 15 0">
               <!-- Flyout content start -->
-              <uc:DisplayControl />
-              <!-- Flyout content End-->
+				<StackPanel>
+                    <uc:DisplayControl/>
+                </StackPanel>
+            <!-- Flyout content End-->
             </Panel>
             <Border CornerRadius="0 0 10 10"
                     BorderThickness="0"
@@ -52,9 +51,9 @@
               <StackPanel
                   HorizontalAlignment="Right"
                   Height="48"
-                  Width="280"
+                  Width="300"
                   Background="#35000000">
-                <StackPanel
+                  <StackPanel
                   Background="Transparent"
                   HorizontalAlignment="Right"
                   Height="48">
@@ -78,6 +77,7 @@
                     </Button>
                   </DockPanel>
                 </StackPanel>
+
               </StackPanel>
             </Border>
           </DockPanel>

@@ -53,8 +53,8 @@ namespace DisplayControlFlyout.Views
             PropertyChanged += FlyoutWindow_PropertyChanged;
 
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Width = 280;
-            Height = 580;
+            Width = 300;
+            Height = 650;
 
             if (isPreload)
             {
