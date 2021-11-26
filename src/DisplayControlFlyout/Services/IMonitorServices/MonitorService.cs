@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DisplayControlFlyout.Services.IMonitorServices
 {
@@ -15,14 +12,29 @@ namespace DisplayControlFlyout.Services.IMonitorServices
             _brightnessController.SetAll(bright);
         }
 
-        public int GetAverage()
+        public void Set(uint bright, PhysicalMonitorBrightnessController.MonitorInfo monitor)
         {
-            return _brightnessController.Get();
+            _brightnessController.Set(bright, monitor);
+        }
+
+        public uint GetAverage()
+        {
+            return _brightnessController.GetAverage();
+        }
+
+        public uint Get(PhysicalMonitorBrightnessController.MonitorInfo monitor)
+        {
+            return _brightnessController.Get(monitor);
         }
 
         public void Refresh()
         {
             _brightnessController.UpdateMonitors();
+        }
+
+        public List<PhysicalMonitorBrightnessController.MonitorInfo> GetMonitors()
+        {
+            return _brightnessController.Monitors.ToList();
         }
 
         public void Dispose()

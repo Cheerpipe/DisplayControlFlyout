@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
-using System.Threading;
 using ArtemisFlyout.Services;
 using AutoHDR.Displays;
 using Avalonia;
@@ -37,25 +36,27 @@ namespace DisplayControlFlyout.ViewModels
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Television only", Mode = DisplayMode.Tv, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.tv.png"))) });
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Duplicated single", Mode = DisplayMode.DuplicatedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.duplicated_single.png"))) });
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Extended single", Mode = DisplayMode.ExtendedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extended_single.png"))) });
-        }
 
-        public int Bright
-        {
-            get => _monitorService.GetAverage();
-            set => _monitorService.SetAll((uint)value);
-        }
-
-        public double FlyoutHeight
-        {
-            get
+            _monitors = new List<DisplayBrightViewModel>();
+            _monitorService.Refresh();
+            foreach (var monitor in _monitorService.GetMonitors())
             {
-                return GlobalHDR ? 580 : 650;
+                _monitors.Add(new DisplayBrightViewModel(_monitorService, monitor));
             }
         }
 
+        private List<DisplayBrightViewModel> _monitors;
+        public List<DisplayBrightViewModel> Monitors => _monitors;
+
+        public uint Bright
+        {
+            get => _monitorService.GetAverage();
+            set => _monitorService.SetAll(value);
+        }
+
+        public double FlyoutHeight => GlobalHDR ? 580 : 580 + (55 * _monitors.Count) + 20;
 
         public List<ApplicableDisplayMode> ApplicableDisplayModes => _applicableDisplayModes;
-
         public ApplicableDisplayMode SelectedApplicableDisplayMode
         {
             get
@@ -71,6 +72,7 @@ namespace DisplayControlFlyout.ViewModels
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         public bool GlobalHDR
         {
             get => HDR.GetGlobalHDRState();

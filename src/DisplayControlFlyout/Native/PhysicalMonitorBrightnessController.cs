@@ -54,7 +54,7 @@ public class PhysicalMonitorBrightnessController : IDisposable
         {
             Set(brightness, m, true);
         }
-        
+
     }
 
     private void Set(uint brightness, MonitorInfo monitor, bool refreshMonitorsIfNeeded)
@@ -74,17 +74,26 @@ public class PhysicalMonitorBrightnessController : IDisposable
         if (refreshMonitorsIfNeeded && (isSomeFail || !Monitors.Any()))
         {
             UpdateMonitors();
-            Set(brightness, monitor,false);
+            Set(brightness, monitor, false);
         }
     }
 
-    public int Get()
+    public uint GetAverage()
     {
         if (!Monitors.Any())
         {
-            return -1;
+            return 0;
         }
-        return (int)Monitors.Average(d => d.CurrentValue);
+        return (uint)Monitors.Average(d => d.CurrentValue);
+    }
+
+    public uint Get(MonitorInfo monitor)
+    {
+        if (!Monitors.Any())
+        {
+            return 0;
+        }
+        return Monitors.FirstOrDefault(m => m.Handle == monitor.Handle)!.CurrentValue;
     }
     #endregion
 
@@ -93,7 +102,7 @@ public class PhysicalMonitorBrightnessController : IDisposable
         DisposeMonitors(this.Monitors);
 
         var monitors = new List<MonitorInfo>();
-        EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData) =>
+        EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (IntPtr hMonitor, IntPtr _, ref Rect _, IntPtr dwData) =>
         {
             uint physicalMonitorsCount = 0;
             if (!GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref physicalMonitorsCount))
@@ -142,11 +151,9 @@ public class PhysicalMonitorBrightnessController : IDisposable
 
     private static void DisposeMonitors(IEnumerable<MonitorInfo> monitors)
     {
-        if (monitors?.Any() == true)
-        {
-            PHYSICAL_MONITOR[] monitorArray = monitors.Select(m => new PHYSICAL_MONITOR { hPhysicalMonitor = m.Handle }).ToArray();
-            DestroyPhysicalMonitors((uint)monitorArray.Length, monitorArray);
-        }
+        if (monitors?.Any() != true) return;
+        PHYSICAL_MONITOR[] monitorArray = monitors.Select(m => new PHYSICAL_MONITOR { hPhysicalMonitor = m.Handle }).ToArray();
+        DestroyPhysicalMonitors((uint)monitorArray.Length, monitorArray);
     }
 
     #region Classes
