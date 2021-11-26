@@ -25,7 +25,6 @@ namespace DisplayControlFlyout.ViewModels
             _flyoutService = flyoutService;
             this.WhenActivated(disposables =>
             {
-                _monitorService.Refresh();
                 Disposable.Create(() => { }).DisposeWith(disposables);
             });
 
@@ -38,7 +37,6 @@ namespace DisplayControlFlyout.ViewModels
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Television only", Mode = DisplayMode.Tv, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.tv.png"))) });
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Duplicated single", Mode = DisplayMode.DuplicatedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.duplicated_single.png"))) });
             _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Extended single", Mode = DisplayMode.ExtendedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extended_single.png"))) });
-            Thread.Sleep(100);
         }
 
         public int Bright
