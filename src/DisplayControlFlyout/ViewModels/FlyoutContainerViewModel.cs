@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Threading;
+using ArtemisFlyout.Services;
 using AutoHDR.Displays;
 using Avalonia;
 using Avalonia.Media.Imaging;
@@ -15,11 +16,13 @@ namespace DisplayControlFlyout.ViewModels
 {
     public class FlyoutContainerViewModel : ViewModelBase
     {
-        private List<ApplicableDisplayMode> _applicableDisplayModes;
-        private IMonitorService _monitorService;
-        public FlyoutContainerViewModel(IMonitorService monitorService)
+        private readonly List<ApplicableDisplayMode> _applicableDisplayModes;
+        private readonly IFlyoutService _flyoutService;
+        private readonly IMonitorService _monitorService;
+        public FlyoutContainerViewModel(IMonitorService monitorService, IFlyoutService flyoutService)
         {
             _monitorService = monitorService;
+            _flyoutService = flyoutService;
             this.WhenActivated(disposables =>
             {
                 _monitorService.Refresh();
@@ -40,20 +43,20 @@ namespace DisplayControlFlyout.ViewModels
 
         public int Bright
         {
+            get => _monitorService.GetAverage();
+            set => _monitorService.SetAll((uint)value);
+        }
+
+        public double FlyoutHeight
+        {
             get
             {
-                return _monitorService.GetAverage(); ;
-            }
-            set
-            {
-                _monitorService.SetAll((uint)value);
+                return GlobalHDR ? 580 : 650;
             }
         }
 
-        public List<ApplicableDisplayMode> ApplicableDisplayModes
-        {
-            get => _applicableDisplayModes;
-        }
+
+        public List<ApplicableDisplayMode> ApplicableDisplayModes => _applicableDisplayModes;
 
         public ApplicableDisplayMode SelectedApplicableDisplayMode
         {
@@ -65,30 +68,27 @@ namespace DisplayControlFlyout.ViewModels
             }
             set
             {
+                _flyoutService.CloseAndRelease();
                 DisplayManager.SetMode(value.Mode);
             }
         }
 
         public bool GlobalHDR
         {
-            get
-            {
-                return HDR.GetGlobalHDRState();
-            }
+            get => HDR.GetGlobalHDRState();
             set
             {
+                _flyoutService.CloseAndRelease();
                 HDR.SetGlobalHDRState(value);
             }
         }
 
         public bool Television
         {
-            get
-            {
-                return Services.Television.IsOn;
-            }
+            get => Services.Television.IsOn;
             set
             {
+                _flyoutService.CloseAndRelease();
                 Services.Television.SetPowerOnState(value);
             }
 

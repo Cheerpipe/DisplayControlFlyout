@@ -54,7 +54,7 @@ namespace DisplayControlFlyout.Views
 
             WindowStartupLocation = WindowStartupLocation.Manual;
             Width = 300;
-            Height = 650;
+            //Height = 650;
 
             if (isPreload)
             {

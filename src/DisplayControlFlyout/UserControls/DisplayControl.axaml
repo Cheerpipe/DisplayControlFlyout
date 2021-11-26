@@ -26,7 +26,7 @@
       </ListBox>
     </StackPanel>
       <!-- Action buttons -->
-    <StackPanel Margin="0 30 0 10">
+    <StackPanel Margin="0 30 0 0">
       <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,40,Auto,Auto">
         <ToggleButton
           Name="BtnGlobalHDR"
@@ -75,7 +75,7 @@
       <!-- Action buttons -->
 
       <!-- Bright Slider Start -->
-      <StackPanel Margin="5 0 5 0">
+      <StackPanel Margin="5 10 5 0" IsVisible="{Binding !GlobalHDR}">
           <Grid ColumnDefinitions="25,*,20" RowDefinitions="50"  Margin="0">
               <avalonia:MaterialIcon Kind="Brightness5" Grid.Row="0" Grid.Column="0"></avalonia:MaterialIcon>
               <Slider
