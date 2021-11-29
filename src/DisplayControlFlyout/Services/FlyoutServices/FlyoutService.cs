@@ -7,9 +7,9 @@ using Ninject;
 
 namespace DisplayControlFlyout.Services.FlyoutServices
 {
-    public class FlyoutService : IFlyoutService, IDisposable
+    public class FlyoutService : IFlyoutService
     {
-        public static FlyoutContainer FlyoutWindowInstance { get; private set; }
+        public static FlyoutContainer? FlyoutWindowInstance { get; private set; }
         private readonly IKernel _kernel;
         private bool _opening;
         private bool _closing;
@@ -19,19 +19,22 @@ namespace DisplayControlFlyout.Services.FlyoutServices
             _kernel = kernel;
         }
 
+
         public async void Show(bool animate = true)
         {
             if (_opening)
                 return;
+
             _opening = true;
 
             if (FlyoutWindowInstance != null) return;
             FlyoutWindowInstance = GetInstance();
 
-            FlyoutWindowInstance.Deactivated += (_, _) =>
+            FlyoutWindowInstance.Deactivated += async (_, _) =>
             {
-                _ = CloseAndRelease();
+                await CloseAndRelease();
             };
+
             if (animate)
                 await FlyoutWindowInstance.ShowAnimated();
             else
@@ -62,7 +65,7 @@ namespace DisplayControlFlyout.Services.FlyoutServices
         {
             if (FlyoutWindowInstance != null) return;
             FlyoutWindowInstance = GetInstance();
-            await FlyoutWindowInstance?.ShowAnimated(true)!;
+            await FlyoutWindowInstance.ShowAnimated(true);
             await Task.Delay(300);
             await CloseAndRelease(false);
         }
@@ -86,20 +89,17 @@ namespace DisplayControlFlyout.Services.FlyoutServices
             _closing = true;
 
             if (animate)
-                await FlyoutWindowInstance?.CloseAnimated()!;
+                await FlyoutWindowInstance!.CloseAnimated();
             else
-                FlyoutWindowInstance?.Close();
+                FlyoutWindowInstance!.Close();
 
             FlyoutWindowInstance = null;
+
+            _closing = false;
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();
-            _closing = false;
-        }
-
-        public void Dispose()
-        {
-            _kernel?.Dispose();
         }
     }
 }
