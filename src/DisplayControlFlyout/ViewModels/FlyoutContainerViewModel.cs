@@ -54,7 +54,7 @@ namespace DisplayControlFlyout.ViewModels
             set => _monitorService.SetAll(value);
         }
 
-        public double FlyoutHeight => GlobalHDR ? 580 : 580 + (65 * _monitors.Count) + 20;
+        public double FlyoutHeight => GlobalHDR ? 580 : 580 + (50 * _monitors.Count) + 20;
 
         public List<ApplicableDisplayMode> ApplicableDisplayModes => _applicableDisplayModes;
         public ApplicableDisplayMode SelectedApplicableDisplayMode
