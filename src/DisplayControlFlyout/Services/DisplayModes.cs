@@ -29,8 +29,8 @@ namespace DisplayControlFlyout.Services
     {
         private const string MonitorSwitcherPath = @"D:\Warez\Utiles\MonitorProfileSwitcher_v0700\MonitorSwitcher.exe";
         private const int SetNewModeTimeout = 20;
-        private const int SetNewModeSucessCount = 5;
-        private const int ModeChangeRetryDelay = 500;
+        private const int SetNewModeSucessCount = 3;
+        private const int ModeChangeRetryDelay = 3000;
         private const int ModeChangeRetryTimeout = 15000;
 
         public static void ShowToast(DisplayMode mode)
@@ -115,7 +115,6 @@ namespace DisplayControlFlyout.Services
                         {
                             successCount++;
                         }
-
                         if (successCount == SetNewModeSucessCount)
                         {
                             //Success?
@@ -123,10 +122,9 @@ namespace DisplayControlFlyout.Services
                             break;
                         }
 
-                        if (secondsCount > SetNewModeTimeout)
+                        if (timeoutWatch.ElapsedMilliseconds >= ModeChangeRetryTimeout)
                         {
                             // Failed
-                            //ShowFailedChangeToast(DisplayMode.ExtendedHorizontal);
                             return;
                         }
 

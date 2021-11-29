@@ -17,7 +17,7 @@
 						<DataTemplate>
 							<Border  CornerRadius="4" Padding="4">
 								<StackPanel Orientation="Horizontal" Spacing="10">
-									<Image Source="{Binding Image}" Height="42"/>
+									<Image Source="{Binding Image}" Height="36"/>
 									<TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
 								</StackPanel>
 							</Border>
@@ -38,8 +38,8 @@
 					  IsChecked="{Binding GlobalHDR}">
 						<avalonia:MaterialIcon
 						  Kind="Hdr"
-						  Width="44"
-						  Height="44"/>
+						  Width="48"
+						  Height="48"/>
 					</ToggleButton>
 					<ToggleButton
 					  Name="BtnTelevision"
