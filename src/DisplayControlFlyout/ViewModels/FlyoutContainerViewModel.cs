@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
-using ArtemisFlyout.Services;
-using AutoHDR.Displays;
 using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.Services;
+using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.IMonitorServices;
+using Humanizer;
 using ReactiveUI;
 
 namespace DisplayControlFlyout.ViewModels
@@ -28,14 +29,13 @@ namespace DisplayControlFlyout.ViewModels
             });
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+
             _applicableDisplayModes = new List<ApplicableDisplayMode>();
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Single", Mode = DisplayMode.Single, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.single.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Extended to horizontal", Mode = DisplayMode.ExtendedHorizontal, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extended_horizontal.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Extended to all", Mode = DisplayMode.ExtendedAll, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extended_all.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Duplicated vertical", Mode = DisplayMode.ExtendedHorizontalDuplicatedVertical, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extendeds_plus_duplicated.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Television only", Mode = DisplayMode.Tv, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.tv.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Duplicated single", Mode = DisplayMode.DuplicatedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.duplicated_single.png"))) });
-            _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = "Extended single", Mode = DisplayMode.ExtendedSingle, Image = new Bitmap(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.extended_single.png"))) });
+
+            foreach (var mode in Enum.GetValues<DisplayMode>().Where(m => m != DisplayMode.Unknown))
+            {
+                _applicableDisplayModes.Add(new ApplicableDisplayMode { DisplayName = mode.ToString().Humanize(), Mode = mode, Image = mode.ToBitMap() });
+            }
 
             _monitors = new List<DisplayBrightViewModel>();
             _monitorService.Refresh();
@@ -54,7 +54,7 @@ namespace DisplayControlFlyout.ViewModels
             set => _monitorService.SetAll(value);
         }
 
-        public double FlyoutHeight => GlobalHDR ? 580 : 580 + (55 * _monitors.Count) + 20;
+        public double FlyoutHeight => GlobalHDR ? 580 : 580 + (65 * _monitors.Count) + 20;
 
         public List<ApplicableDisplayMode> ApplicableDisplayModes => _applicableDisplayModes;
         public ApplicableDisplayMode SelectedApplicableDisplayMode

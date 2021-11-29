@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DisplayControlFlyout.Native;
 
 namespace DisplayControlFlyout.Services.IMonitorServices
 {

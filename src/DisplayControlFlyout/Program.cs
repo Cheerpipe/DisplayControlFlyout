@@ -1,12 +1,12 @@
-using System;
 using Avalonia;
 using System.Threading;
-using ArtemisFlyout.IoC;
-using ArtemisFlyout.Services;
 using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.ReactiveUI;
+using DisplayControlFlyout.Extensions;
+using DisplayControlFlyout.IoC;
 using DisplayControlFlyout.Services;
+using DisplayControlFlyout.Services.TrayIcon;
 using Microsoft.Win32;
 
 namespace DisplayControlFlyout
@@ -46,7 +46,6 @@ namespace DisplayControlFlyout
             Kernel.Initialize(new Bindings());
 
             // Do you startup code here
-
             Television.StartMonitor();
             var trayIconService = Kernel.Get<ITrayIconService>();
             trayIconService.Show();
@@ -72,25 +71,25 @@ namespace DisplayControlFlyout
             switch (DisplayManager.GetCurrentMode())
             {
                 case DisplayMode.DuplicatedSingle:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.dup_single.ico"))));
+                    trayIconService.SetIcon(DisplayMode.DuplicatedSingle.ToWindowIcon());
                     break;
                 case DisplayMode.ExtendedAll:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.extended_all.ico"))));
+                    trayIconService.SetIcon(DisplayMode.ExtendedAll.ToWindowIcon());
                     break;
                 case DisplayMode.ExtendedHorizontal:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.extended_horizontal.ico"))));
+                    trayIconService.SetIcon(DisplayMode.ExtendedHorizontal.ToWindowIcon());
                     break;
-                case DisplayMode.ExtendedHorizontalDuplicatedVertical:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.extended_plus_duplicated.ico"))));
+                case DisplayMode.ExtendedDuplicated:
+                    trayIconService.SetIcon(DisplayMode.ExtendedDuplicated.ToWindowIcon());
                     break;
                 case DisplayMode.ExtendedSingle:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.ext_single.ico"))));
+                    trayIconService.SetIcon(DisplayMode.ExtendedSingle.ToWindowIcon());
                     break;
                 case DisplayMode.Tv:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.tv.ico"))));
+                    trayIconService.SetIcon(DisplayMode.Tv.ToWindowIcon());
                     break;
                 case DisplayMode.Single:
-                    trayIconService.SetIcon(new WindowIcon(assets.Open(new Uri(@"resm:DisplayControlFlyout.Assets.Icons.single.ico"))));
+                    trayIconService.SetIcon(DisplayMode.Single.ToWindowIcon());
                     break;
                 case DisplayMode.Unknown:
                     break;

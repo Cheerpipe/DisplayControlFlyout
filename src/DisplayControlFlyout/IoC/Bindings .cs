@@ -1,9 +1,11 @@
-﻿using ArtemisFlyout.Services;
+﻿using Avalonia.Controls.Notifications;
+using DisplayControlFlyout.Services;
+using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.IMonitorServices;
 using DisplayControlFlyout.Services.TrayIcon;
 using Ninject.Modules;
 
-namespace ArtemisFlyout.IoC
+namespace DisplayControlFlyout.IoC
 {
     public class Bindings : NinjectModule
     {
@@ -12,6 +14,7 @@ namespace ArtemisFlyout.IoC
             Bind<ITrayIconService>().To<TrayIconService>().InSingletonScope();
             Bind<IFlyoutService>().To<FlyoutService>().InSingletonScope();
             Bind<IMonitorService>().To<MonitorService>().InSingletonScope();
+            Bind<INotificationServices>().To<WindowsNotificationService>().InSingletonScope();
         }
     }
 }

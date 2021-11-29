@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ArtemisFlyout.IoC;
+using DisplayControlFlyout.IoC;
 using DisplayControlFlyout.ViewModels;
 using DisplayControlFlyout.Views;
 using Ninject;
 
-namespace ArtemisFlyout.Services
+namespace DisplayControlFlyout.Services.FlyoutServices
 {
     public class FlyoutService : IFlyoutService, IDisposable
     {

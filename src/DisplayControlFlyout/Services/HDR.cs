@@ -1,8 +1,7 @@
 ﻿using System;
-
 using System.Runtime.InteropServices;
 
-namespace AutoHDR.Displays
+namespace DisplayControlFlyout.Services
 {
     public static class HDR
     {

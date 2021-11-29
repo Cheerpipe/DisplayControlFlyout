@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using Ninject.Modules;
 
-namespace ArtemisFlyout.IoC
+namespace DisplayControlFlyout.IoC
 {
     public static class Kernel
     {

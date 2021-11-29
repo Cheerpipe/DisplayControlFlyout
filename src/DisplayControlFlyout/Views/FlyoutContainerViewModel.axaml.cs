@@ -10,7 +10,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
-using DisplayControlFlyout.Services;
 using DisplayControlFlyout.ViewModels;
 using ReactiveUI;
 
@@ -234,7 +233,7 @@ namespace DisplayControlFlyout.Views
         // ReSharper disable once UnusedMember.Local
         private void BtnDisplaySettings_OnClick(object sender, RoutedEventArgs e)
         {
-            Windows.Run("cmd", " /k start ms-settings:display && exit");
+            Services.Windows.Run("cmd", " /k start ms-settings:display && exit");
         }
     }
 }

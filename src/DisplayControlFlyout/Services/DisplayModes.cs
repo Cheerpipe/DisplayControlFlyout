@@ -1,8 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DisplayControlFlyout.Extensions;
+using DisplayControlFlyout.IoC;
+using Humanizer;
 using WindowsDisplayAPI.DisplayConfig;
 
 namespace DisplayControlFlyout.Services
@@ -10,9 +15,10 @@ namespace DisplayControlFlyout.Services
     public enum DisplayMode
     {
         Single,                                     // OK
+        [Display(Name = "Extended horizontal")]
         ExtendedHorizontal,                         // OK
         ExtendedAll,                                // OK
-        ExtendedHorizontalDuplicatedVertical,       // OK
+        ExtendedDuplicated,       // OK
         Tv,                                         // OK
         ExtendedSingle,
         DuplicatedSingle,
@@ -26,6 +32,14 @@ namespace DisplayControlFlyout.Services
         private const int SetNewModeSucessCount = 5;
         private const int ModeChangeRetryDelay = 500;
         private const int ModeChangeRetryTimeout = 15000;
+
+        public static void ShowToast(DisplayMode mode)
+        {
+
+            var n = Kernel.Get<INotificationServices>();
+            n.Show("Display mode changed", $"New display mode is {mode.ToString().Humanize()}", DisplayMode.ExtendedHorizontal.ToUriPackImage());
+        }
+
         public static DisplayMode GetCurrentMode()
         {
             try
@@ -45,7 +59,7 @@ namespace DisplayControlFlyout.Services
                     return DisplayMode.Tv;
 
                 if (paths.Where(p => p.IsInUse).Count() == 2 && paths.Where(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo.Length == 2).Count() == 1 && paths.Where(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo.Length == 1).Count() == 1) // Hay dos en uso y uno de los dos tiene dos monitores
-                    return DisplayMode.ExtendedHorizontalDuplicatedVertical;
+                    return DisplayMode.ExtendedDuplicated;
 
                 return DisplayMode.Unknown;
 
@@ -77,7 +91,7 @@ namespace DisplayControlFlyout.Services
                             await Task.Delay(ModeChangeRetryDelay);
                         } while (DisplayManager.GetCurrentMode() != DisplayMode.Single && retryCount < maxRetry);
 
-                    //ShowToast(DisplayMode.Single);
+                    ShowToast(DisplayMode.Single);
                     if (retryCount < maxRetry)
                         for (int i = 1; i < 3; i++)
                         {
@@ -105,7 +119,7 @@ namespace DisplayControlFlyout.Services
                         if (successCount == SetNewModeSucessCount)
                         {
                             //Success?
-                            //ShowToast(currentMode);
+                            ShowToast(currentMode);
                             break;
                         }
 
@@ -136,7 +150,7 @@ namespace DisplayControlFlyout.Services
                             retryCount++;
                             await Task.Delay(ModeChangeRetryDelay);
                         } while (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedAll && retryCount < maxRetry);
-                    //ShowToast(DisplayMode.ExtendedAll);
+                    ShowToast(DisplayMode.ExtendedAll);
 
                     if (retryCount < maxRetry)
                     {
@@ -148,15 +162,15 @@ namespace DisplayControlFlyout.Services
                         }
                     }
                     break;
-                case DisplayMode.ExtendedHorizontalDuplicatedVertical:
-                    if (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedHorizontalDuplicatedVertical)
+                case DisplayMode.ExtendedDuplicated:
+                    if (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedDuplicated)
                         do
                         {
                             Windows.Run(MonitorSwitcherPath, @"""-load:C:\Users\cheer\AppData\Roaming\MonitorSwitcher\profiles\Extended horizontal duplicated vertical.xml""");
                             retryCount++;
                             await Task.Delay(ModeChangeRetryDelay);
-                        } while (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedHorizontalDuplicatedVertical && retryCount < maxRetry);
-                    //ShowToast(DisplayMode.ExtendedHorizontalDuplicatedVertical);
+                        } while (DisplayManager.GetCurrentMode() != DisplayMode.ExtendedDuplicated && retryCount < maxRetry);
+                    ShowToast(DisplayMode.ExtendedDuplicated);
 
                     if (retryCount < maxRetry)
                     {
@@ -171,7 +185,7 @@ namespace DisplayControlFlyout.Services
                 case DisplayMode.Tv:
                     if (DisplayManager.GetCurrentMode() != DisplayMode.Tv)
                         Windows.Run(@"D:\Warez\Utiles\MonitorProfileSwitcher_v0700\MonitorSwitcher.exe", @"""-load:C:\Users\cheer\AppData\Roaming\MonitorSwitcher\profiles\TV.xml""");
-                    // ShowToast(DisplayMode.Tv);
+                    ShowToast(DisplayMode.Tv);
                     for (int i = 1; i < 3; i++)
                     {
                         Television.SetPowerOnState(true);
@@ -180,8 +194,6 @@ namespace DisplayControlFlyout.Services
                     break;
                 case DisplayMode.DuplicatedSingle:
                 case DisplayMode.ExtendedSingle:
-                    break;
-                default:
                     break;
             }
         }

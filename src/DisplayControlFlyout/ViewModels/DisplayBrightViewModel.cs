@@ -1,4 +1,5 @@
-﻿using DisplayControlFlyout.Services.IMonitorServices;
+﻿using DisplayControlFlyout.Native;
+using DisplayControlFlyout.Services.IMonitorServices;
 
 namespace DisplayControlFlyout.ViewModels
 {

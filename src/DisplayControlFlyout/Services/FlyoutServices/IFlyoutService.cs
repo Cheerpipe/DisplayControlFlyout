@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ArtemisFlyout.Services
+namespace DisplayControlFlyout.Services.FlyoutServices
 {
     public interface IFlyoutService
     {

@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
-using DisplayControlFlyout.Services;
 
-namespace ArtemisFlyout.Services
+namespace DisplayControlFlyout.Services.TrayIcon
 {
     public interface ITrayIconService
     {
