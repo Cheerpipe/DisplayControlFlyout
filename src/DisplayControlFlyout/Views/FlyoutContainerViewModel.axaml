@@ -36,6 +36,16 @@
 						ClipToBounds="False"
 						BoxShadow="3 3 0 0 #64000000">
 					<Panel>
+                        <Panel>
+                            <Border CornerRadius="0 0 10 10"
+                                    BorderThickness="0"
+                                    ClipToBounds="True"
+                                    Background="#40000000"
+                                    Height="48"
+                                    VerticalAlignment="Bottom"
+                                    DockPanel.Dock="Bottom">
+                            </Border>
+                        </Panel>
 						<Panel Name="MainContainerPanel">
 							<DockPanel DockPanel.Dock="Top" Margin="15 25 15 0">
 								<!-- Flyout content start -->
@@ -72,16 +82,6 @@
 									</DockPanel>
 								</StackPanel>
 							</DockPanel>
-						</Panel>
-						<Panel>
-							<Border CornerRadius="0 0 10 10"
-									BorderThickness="0"
-									ClipToBounds="True"
-									Background="#40000000"
-									Height="48"
-									VerticalAlignment="Bottom"
-									DockPanel.Dock="Bottom">
-							</Border>
 						</Panel>
 					</Panel>
 				</Border>
