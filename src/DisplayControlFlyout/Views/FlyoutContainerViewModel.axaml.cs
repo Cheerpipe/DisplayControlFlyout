@@ -10,7 +10,9 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Transformation;
 using Avalonia.ReactiveUI;
+using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.ViewModels;
+using Ninject;
 using ReactiveUI;
 
 // ReSharper disable UnusedParameter.Local
@@ -44,6 +46,7 @@ namespace DisplayControlFlyout.Views
         public int ResizeAnimationDelay { get; set; } = 200;
         public int FlyoutSpacing { get; set; } = 12;
 
+      
         public async Task ShowAnimated(bool isPreload = false)
         {
             PointerPressed += FlyoutPanelContainer_PointerPressed;

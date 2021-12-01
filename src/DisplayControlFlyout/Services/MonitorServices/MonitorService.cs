@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DisplayControlFlyout.Native;
 
-namespace DisplayControlFlyout.Services.IMonitorServices
+namespace DisplayControlFlyout.Services.MonitorServices
 {
     public class MonitorService : IMonitorService, IDisposable
     {

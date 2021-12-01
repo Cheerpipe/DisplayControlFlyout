@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Avalonia.Input;
 using DisplayControlFlyout.ViewModels;
 using DisplayControlFlyout.Views;
 using Ninject;
@@ -36,11 +37,17 @@ namespace DisplayControlFlyout.Services.FlyoutServices
                 _ = CloseAndRelease();
             };
 
+            FlyoutWindowInstance.KeyDown += (_, e) =>
+            {
+                if (e.Key == Key.Escape)
+                    _ = CloseAndRelease();
+            };
+
             if (animate)
                 await FlyoutWindowInstance.ShowAnimated();
             else
                 FlyoutWindowInstance.Show();
-            
+
             FlyoutWindowInstance?.Activate();
 
             _opening = false;

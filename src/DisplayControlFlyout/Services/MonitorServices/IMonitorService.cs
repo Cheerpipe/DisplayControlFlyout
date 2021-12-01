@@ -1,10 +1,7 @@
-﻿
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DisplayControlFlyout.Native;
 
-namespace DisplayControlFlyout.Services.IMonitorServices
+namespace DisplayControlFlyout.Services.MonitorServices
 {
     public interface IMonitorService
     {

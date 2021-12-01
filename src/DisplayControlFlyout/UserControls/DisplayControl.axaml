@@ -12,7 +12,7 @@
 	<Panel>
 		<StackPanel >
 			<StackPanel Margin="0 0 0 0">
-				<ListBox Items="{Binding ApplicableDisplayModes}"  SelectedItem="{Binding SelectedApplicableDisplayMode}" SelectionChanged="SelectingItemsControl_OnSelectionChanged">
+				<ListBox Items="{Binding ApplicableDisplayModes}"  SelectedItem="{Binding SelectedApplicableDisplayMode}" Name="DisplayModeRepeater">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<Border  CornerRadius="4" Padding="4">
@@ -88,9 +88,9 @@
 								<avalonia:MaterialIcon Kind="Brightness7" Grid.Row="0" Grid.Column="2"></avalonia:MaterialIcon>
 							</Grid>
 						</StackPanel>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-			<!-- Bright Slider End -->
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+				<!-- Bright Slider End -->
 			</ItemsRepeater>
 		</StackPanel>
 	</Panel>

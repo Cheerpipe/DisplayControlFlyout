@@ -8,7 +8,9 @@ using Avalonia.Platform;
 using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
-using DisplayControlFlyout.Services.IMonitorServices;
+using DisplayControlFlyout.Services.IKeyboardHookServices;
+using DisplayControlFlyout.Services.MonitorServices;
+using DynamicData;
 using Humanizer;
 using ReactiveUI;
 
@@ -16,13 +18,17 @@ namespace DisplayControlFlyout.ViewModels
 {
     public class FlyoutContainerViewModel : ViewModelBase
     {
-        private readonly List<ApplicableDisplayMode> _applicableDisplayModes;
+        private readonly List<ApplicableDisplayMode?> _applicableDisplayModes;
         private readonly IFlyoutService _flyoutService;
         private readonly IMonitorService _monitorService;
-        public FlyoutContainerViewModel(IMonitorService monitorService, IFlyoutService flyoutService)
+        private readonly IKeyboardHookServices _keyboardHookServices;
+        private ApplicableDisplayMode? _currentDisplayMode;
+        public FlyoutContainerViewModel(IMonitorService monitorService, IFlyoutService flyoutService, IKeyboardHookServices keyboardHookServices)
         {
             _monitorService = monitorService;
             _flyoutService = flyoutService;
+            _keyboardHookServices = keyboardHookServices;
+
             this.WhenActivated(disposables =>
             {
                 Disposable.Create(() => { }).DisposeWith(disposables);
@@ -30,7 +36,7 @@ namespace DisplayControlFlyout.ViewModels
 
             var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
-            _applicableDisplayModes = new List<ApplicableDisplayMode>();
+            _applicableDisplayModes = new List<ApplicableDisplayMode?>();
 
             foreach (var mode in Enum.GetValues<DisplayMode>().Where(m => m != DisplayMode.Unknown))
             {
@@ -43,6 +49,9 @@ namespace DisplayControlFlyout.ViewModels
             {
                 _monitors.Add(new DisplayBrightViewModel(_monitorService, monitor));
             }
+
+            _currentDisplayMode = _applicableDisplayModes.FirstOrDefault(i => i.Mode == DisplayManager.GetCurrentMode());
+
         }
 
         private List<DisplayBrightViewModel> _monitors;
@@ -56,19 +65,17 @@ namespace DisplayControlFlyout.ViewModels
 
         public double FlyoutHeight => GlobalHDR ? 530 : 530 + (55 * _monitors.Count) + 20;
 
-        public List<ApplicableDisplayMode> ApplicableDisplayModes => _applicableDisplayModes;
+        public List<ApplicableDisplayMode?> ApplicableDisplayModes => _applicableDisplayModes;
         public ApplicableDisplayMode SelectedApplicableDisplayMode
         {
             get
             {
-                DisplayMode currentDisplayMode = DisplayManager.GetCurrentMode();
-                ApplicableDisplayMode currentSelectedMode = _applicableDisplayModes.FirstOrDefault(i => i.Mode == currentDisplayMode);
-                return currentSelectedMode;
+                return _currentDisplayMode;
             }
             set
             {
-                _flyoutService.CloseAndRelease();
-                DisplayManager.SetMode(value.Mode);
+                this.RaiseAndSetIfChanged(ref _currentDisplayMode, value);
+
             }
         }
 
