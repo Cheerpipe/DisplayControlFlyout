@@ -22,11 +22,13 @@ namespace DisplayControlFlyout.Services.FlyoutServices
 
         public async void Show(bool animate = true)
         {
+            if (FlyoutWindowInstance != null)
+                return;
+
             if (_opening)
                 return;
             _opening = true;
 
-            if (FlyoutWindowInstance != null) return;
             FlyoutWindowInstance = CreateInstance();
 
             FlyoutWindowInstance.Deactivated += (_, _) =>

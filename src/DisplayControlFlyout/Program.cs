@@ -1,5 +1,6 @@
 using Avalonia;
 using System.Threading;
+using System.Windows.Forms;
 using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.ReactiveUI;
@@ -7,9 +8,11 @@ using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.IoC;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
+using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.Services.TrayIcon;
 using DisplayControlFlyout.ViewModels;
 using Microsoft.Win32;
+using Application = Avalonia.Application;
 
 namespace DisplayControlFlyout
 {
@@ -66,6 +69,12 @@ namespace DisplayControlFlyout
                 UpdateTrayIcon(trayIconService);
             };
 
+            //Register Keyboard Shorcuts
+            IKeyboardHookServices _keyboardHookServices = Kernel.Get<IKeyboardHookServices>();
+            _keyboardHookServices.RegisterHotKey(ModifierKeys.Win | ModifierKeys.Shift, Keys.D);
+            _keyboardHookServices.KeyPressed += _keyboardHookServices_KeyPressed;
+
+
             // Start the main loop
             app.Run(RunCancellationToken);
 
@@ -73,6 +82,15 @@ namespace DisplayControlFlyout
             trayIconService.Hide();
             Television.StopMonitor();
             Television.Dispose();
+        }
+
+        private static void _keyboardHookServices_KeyPressed(object? sender, KeyPressedEventArgs e)
+        {
+            if (e.Key == Keys.D && e.Modifier == (ModifierKeys.Win | ModifierKeys.Shift))
+            {
+                IFlyoutService flyoutService = Kernel.Get<IFlyoutService>();
+                flyoutService.Show();
+            }
         }
 
         private static void UpdateTrayIcon(ITrayIconService trayIconService)

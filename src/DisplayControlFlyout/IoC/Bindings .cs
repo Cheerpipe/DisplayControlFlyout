@@ -1,7 +1,8 @@
 ﻿using Avalonia.Controls.Notifications;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
-using DisplayControlFlyout.Services.IMonitorServices;
+using DisplayControlFlyout.Services.IKeyboardHookServices;
+using DisplayControlFlyout.Services.MonitorServices;
 using DisplayControlFlyout.Services.TrayIcon;
 using Ninject.Modules;
 
@@ -15,6 +16,7 @@ namespace DisplayControlFlyout.IoC
             Bind<IFlyoutService>().To<FlyoutService>().InSingletonScope();
             Bind<IMonitorService>().To<MonitorService>().InSingletonScope();
             Bind<INotificationServices>().To<WindowsNotificationService>().InSingletonScope();
+            Bind<IKeyboardHookServices>().To<KeyboardHookServices>().InSingletonScope();
         }
     }
 }
