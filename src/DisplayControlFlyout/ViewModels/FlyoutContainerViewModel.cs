@@ -2,15 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
-using Avalonia;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
-using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.Services.MonitorServices;
-using DynamicData;
 using Humanizer;
 using ReactiveUI;
 
@@ -21,20 +16,16 @@ namespace DisplayControlFlyout.ViewModels
         private readonly List<ApplicableDisplayMode?> _applicableDisplayModes;
         private readonly IFlyoutService _flyoutService;
         private readonly IMonitorService _monitorService;
-        private readonly IKeyboardHookServices _keyboardHookServices;
         private ApplicableDisplayMode? _currentDisplayMode;
-        public FlyoutContainerViewModel(IMonitorService monitorService, IFlyoutService flyoutService, IKeyboardHookServices keyboardHookServices)
+        public FlyoutContainerViewModel(IMonitorService monitorService, IFlyoutService flyoutService)
         {
             _monitorService = monitorService;
             _flyoutService = flyoutService;
-            _keyboardHookServices = keyboardHookServices;
 
             this.WhenActivated(disposables =>
             {
                 Disposable.Create(() => { }).DisposeWith(disposables);
             });
-
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
 
             _applicableDisplayModes = new List<ApplicableDisplayMode?>();
 
@@ -50,7 +41,7 @@ namespace DisplayControlFlyout.ViewModels
                 _monitors.Add(new DisplayBrightViewModel(_monitorService, monitor));
             }
 
-            _currentDisplayMode = _applicableDisplayModes.FirstOrDefault(i => i.Mode == DisplayManager.GetCurrentMode());
+            _currentDisplayMode = _applicableDisplayModes.FirstOrDefault(i => i != null && i.Mode == DisplayManager.GetCurrentMode());
 
         }
 
@@ -66,7 +57,7 @@ namespace DisplayControlFlyout.ViewModels
         public double FlyoutHeight => GlobalHDR ? 530 : 530 + (55 * _monitors.Count) + 20;
 
         public List<ApplicableDisplayMode?> ApplicableDisplayModes => _applicableDisplayModes;
-        public ApplicableDisplayMode SelectedApplicableDisplayMode
+        public ApplicableDisplayMode? SelectedApplicableDisplayMode
         {
             get
             {

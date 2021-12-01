@@ -10,9 +10,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Transformation;
 using Avalonia.ReactiveUI;
-using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.ViewModels;
-using Ninject;
 using ReactiveUI;
 
 // ReSharper disable UnusedParameter.Local
