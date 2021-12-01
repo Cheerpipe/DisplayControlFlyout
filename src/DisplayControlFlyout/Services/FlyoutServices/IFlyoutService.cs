@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using DisplayControlFlyout.ViewModels;
 
 namespace DisplayControlFlyout.Services.FlyoutServices
 {
@@ -8,7 +10,8 @@ namespace DisplayControlFlyout.Services.FlyoutServices
         Task CloseAndRelease(bool animate = true);
         void SetHeight(double newHeight);
         void SetWidth(double newWidth);
-        Task Preload();
+        Task PreLoad();
         void Toggle();
+        void SetPopulateViewModelFunc(Func<ViewModelBase> populateViewModelFunc);
     }
 }

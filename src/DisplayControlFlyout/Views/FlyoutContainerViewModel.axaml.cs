@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
@@ -9,6 +8,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Media.Transformation;
 using Avalonia.ReactiveUI;
 using DisplayControlFlyout.ViewModels;
 using ReactiveUI;
@@ -39,6 +39,7 @@ namespace DisplayControlFlyout.Views
         private readonly int _screenWidth;
 
         public int ShowAnimationDelay { get; set; } = 250;
+        public int ContentRevealAnimationDelay { get; set; } = 1000;
         public int CloseAnimationDelay { get; set; } = 200;
         public int ResizeAnimationDelay { get; set; } = 200;
         public int FlyoutSpacing { get; set; } = 12;
@@ -55,32 +56,39 @@ namespace DisplayControlFlyout.Views
             Width = 300;
             //Height = 650;
 
-            if (isPreload)
-            {
-                this.WindowState = WindowState.Minimized;
-                HorizontalPosition = Screens.All.Sum(s => s.WorkingArea.Width);
-            }
-            else
-            {
-                Position = new PixelPoint(_screenWidth - (int)(Width + 12), Position.Y);
-            }
+            if (isPreload) 
+                WindowState = WindowState.Minimized;
+
+            Position = new PixelPoint(_screenWidth - (int)(Width + 12), Position.Y);
 
             Show();
 
+
             Clock = Avalonia.Animation.Clock.GlobalClock;
-            var showTransition = new IntegerTransition()
+            IntegerTransition showTransition = new IntegerTransition()
             {
                 Property = FlyoutContainer.VerticalPositionProperty,
                 Duration = TimeSpan.FromMilliseconds(ShowAnimationDelay),
-                Easing = new CircularEaseOut()
+                Easing = new ExponentialEaseOut()
             };
 
-            showTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, _screenHeight, (_screenHeight - (int)(Height + FlyoutSpacing)));
+            if (!isPreload)
+                showTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, _screenHeight, GetTargetVerticalPosition());
+
+            Panel mainContainerPanel = this.Find<Panel>("MainContainerPanel");
+            TransformOperationsTransition marginTransition = new TransformOperationsTransition()
+            {
+                Property = FlyoutContainer.RenderTransformProperty,
+                Duration = TimeSpan.FromMilliseconds(ContentRevealAnimationDelay),
+                Easing = new ExponentialEaseOut()
+            };
+            marginTransition.Apply(mainContainerPanel, Avalonia.Animation.Clock.GlobalClock, TransformOperations.Parse("translate(20px)"), TransformOperations.Parse("translate(0px)"));
+
             await Task.Delay(ShowAnimationDelay);
         }
 
         #region Drag to move
-        private async void FlyoutPanelContainer_PointerReleased(object sender, PointerReleasedEventArgs e)
+        private async void FlyoutPanelContainer_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             _isOnDrag = false;
             if (VerticalPosition >= GetTargetVerticalPosition() + GetTargetVerticalPosition() * 0.1f)
@@ -91,7 +99,7 @@ namespace DisplayControlFlyout.Views
 
         private double _previousPosition;
         private double _currentPosition;
-        private void FlyoutPanelContainer_PointerMoved(object sender, PointerEventArgs e)
+        private void FlyoutPanelContainer_PointerMoved(object? sender, PointerEventArgs e)
         {
             if (!_isOnDrag)
             {
@@ -119,7 +127,7 @@ namespace DisplayControlFlyout.Views
         public int GetTargetVerticalPosition() => _screenHeight - (int)(Height + FlyoutSpacing);
 
         private bool _isOnDrag;
-        private void FlyoutPanelContainer_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void FlyoutPanelContainer_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.Pointer.IsPrimary) return;
 
@@ -180,7 +188,7 @@ namespace DisplayControlFlyout.Views
             widthTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, Width, newWidth);
         }
 
-        private void FlyoutWindow_PropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e)
+        private void FlyoutWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.Property.Name == "Height" || e.Property.Name == "Width" || e.Property.Name == "HorizontalPosition")
             {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DisplayControlFlyout.IoC;
+using System.Windows.Forms;
 using DisplayControlFlyout.ViewModels;
 using DisplayControlFlyout.Views;
 using Ninject;
@@ -9,8 +9,9 @@ namespace DisplayControlFlyout.Services.FlyoutServices
 {
     public class FlyoutService : IFlyoutService
     {
-        public static FlyoutContainer? FlyoutWindowInstance { get; private set; }
+        public static FlyoutContainer FlyoutWindowInstance { get; private set; }
         private readonly IKernel _kernel;
+        private Func<ViewModelBase> _populateViewModelFunc;
         private bool _opening;
         private bool _closing;
 
@@ -19,54 +20,57 @@ namespace DisplayControlFlyout.Services.FlyoutServices
             _kernel = kernel;
         }
 
-
         public async void Show(bool animate = true)
         {
             if (_opening)
                 return;
-
             _opening = true;
 
             if (FlyoutWindowInstance != null) return;
-            FlyoutWindowInstance = GetInstance();
+            FlyoutWindowInstance = CreateInstance();
 
-            FlyoutWindowInstance.Deactivated += async (_, _) =>
+            FlyoutWindowInstance.Deactivated += (_, _) =>
             {
-                await CloseAndRelease();
+                _ = CloseAndRelease();
             };
 
             if (animate)
                 await FlyoutWindowInstance.ShowAnimated();
             else
                 FlyoutWindowInstance.Show();
+            
+            FlyoutWindowInstance?.Activate();
+
             _opening = false;
         }
 
         public void SetHeight(double newHeight)
         {
-            FlyoutWindowInstance?.SetHeight(newHeight);
+            FlyoutWindowInstance?.SetHeight(newHeight + 1);
         }
 
         public void SetWidth(double newWidth)
         {
-            FlyoutWindowInstance?.SetWidth(newWidth);
+            FlyoutWindowInstance?.SetWidth(newWidth + 1);
         }
 
         //TODO: Move ViewModel creation outside the Service
-        private FlyoutContainer GetInstance()
+        private FlyoutContainer CreateInstance()
         {
+            if (_populateViewModelFunc == null)
+                throw new Exception("PopulateViewModelFunc delegate must be seted using SetPopulateViewModelFunc() before using a Flyout");
 
             FlyoutContainer flyoutInstance = _kernel.Get<FlyoutContainer>();
-            flyoutInstance.DataContext = Kernel.Get<FlyoutContainerViewModel>();
+            flyoutInstance.DataContext = _populateViewModelFunc();
             return flyoutInstance;
         }
 
-        public async Task Preload()
+        public async Task PreLoad()
         {
             if (FlyoutWindowInstance != null) return;
-            FlyoutWindowInstance = GetInstance();
+            FlyoutWindowInstance = CreateInstance();
             await FlyoutWindowInstance.ShowAnimated(true);
-            await Task.Delay(300);
+            await Task.Delay(500);
             await CloseAndRelease(false);
         }
 
@@ -82,16 +86,22 @@ namespace DisplayControlFlyout.Services.FlyoutServices
             }
         }
 
+        public void SetPopulateViewModelFunc(Func<ViewModelBase> populateViewModelFunc)
+        {
+            _populateViewModelFunc = populateViewModelFunc;
+        }
+
         public async Task CloseAndRelease(bool animate = true)
         {
             if (_closing)
                 return;
+
             _closing = true;
 
             if (animate)
-                await FlyoutWindowInstance!.CloseAnimated();
+                await FlyoutWindowInstance.CloseAnimated();
             else
-                FlyoutWindowInstance!.Close();
+                FlyoutWindowInstance.Close();
 
             FlyoutWindowInstance = null;
 

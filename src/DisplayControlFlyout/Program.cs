@@ -6,7 +6,9 @@ using Avalonia.ReactiveUI;
 using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.IoC;
 using DisplayControlFlyout.Services;
+using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.TrayIcon;
+using DisplayControlFlyout.ViewModels;
 using Microsoft.Win32;
 
 namespace DisplayControlFlyout
@@ -46,6 +48,14 @@ namespace DisplayControlFlyout
             Kernel.Initialize(new Bindings());
 
             // Do you startup code here
+
+
+            IFlyoutService flyoutService = Kernel.Get<IFlyoutService>();
+            flyoutService.SetPopulateViewModelFunc(() =>
+            {
+                return Kernel.Get<FlyoutContainerViewModel>();
+            });
+
             Television.StartMonitor();
             var trayIconService = Kernel.Get<ITrayIconService>();
             trayIconService.Show();

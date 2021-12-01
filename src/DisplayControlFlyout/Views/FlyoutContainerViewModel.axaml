@@ -20,71 +20,73 @@
         UseLayoutRounding="False"
         Height="{Binding FlyoutHeight}">
 
-  <DockPanel Width="300" Height="{Binding FlyoutHeight}" HorizontalAlignment="Left" >
-    <Panel HorizontalAlignment="Left" Name="FlyoutPanelContainer">
-      <ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
-        <ExperimentalAcrylicBorder.Material>
-          <ExperimentalAcrylicMaterial
-              BackgroundSource="None"
-              TintColor="#99000000"
-              TintOpacity="0.65"
-              MaterialOpacity="0.65"/>
-        </ExperimentalAcrylicBorder.Material>
-        <Border CornerRadius="10 10 10 10"
-                BorderBrush="#414141"
-                BorderThickness="1"
-                ClipToBounds="False"
-                BoxShadow="3 3 0 0 #64000000">
-          <DockPanel>
-            <Panel DockPanel.Dock="Top" Margin="15 25 15 0">
-              <!-- Flyout content start -->
-				<StackPanel>
-                    <uc:DisplayControl/>
-                </StackPanel>
-            <!-- Flyout content End-->
-            </Panel>
-            <Border CornerRadius="0 0 10 10"
-                    BorderThickness="0"
-                    ClipToBounds="True"
-                    Background="Transparent"
-                    VerticalAlignment="Bottom"
-                    DockPanel.Dock="Bottom">
-              <StackPanel
-                  HorizontalAlignment="Right"
-                  Height="48"
-                  Width="300"
-                  Background="#25000000">
-                  <StackPanel
-                  Background="Transparent"
-                  HorizontalAlignment="Right"
-                  Height="48">
-                  <DockPanel
-                      Height="48"
-                      Background="Transparent"
-                      Margin="0 0 5 0">
-                    <Button HorizontalAlignment="Right"
-                            Name="BtnDisplaySettings"
-                            Height="36"
-                            Width="36"
-                            Margin="0 0 0 0"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Click="BtnDisplaySettings_OnClick">
-                      <avalonia:MaterialIcon
-                          Kind="CogOutline"
-                          Width="16"
-                          Height="16"
-                          Foreground="LightGray"/>
-                    </Button>
-                  </DockPanel>
-                </StackPanel>
-
-              </StackPanel>
-            </Border>
-          </DockPanel>
-        </Border>
-      </ExperimentalAcrylicBorder>
-    </Panel>
-  </DockPanel>
+	<DockPanel Width="300" Height="{Binding FlyoutHeight}" HorizontalAlignment="Left" >
+		<Panel HorizontalAlignment="Left" Name="FlyoutPanelContainer">
+			<ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
+				<ExperimentalAcrylicBorder.Material>
+					<ExperimentalAcrylicMaterial
+						BackgroundSource="None"
+						TintColor="#99000000"
+						TintOpacity="0.65"
+						MaterialOpacity="0.65"/>
+				</ExperimentalAcrylicBorder.Material>
+				<Border CornerRadius="10 10 10 10"
+						BorderBrush="#414141"
+						BorderThickness="1"
+						ClipToBounds="False"
+						BoxShadow="3 3 0 0 #64000000">
+					<Panel>
+						<Panel Name="MainContainerPanel">
+							<DockPanel DockPanel.Dock="Top" Margin="15 25 15 0">
+								<!-- Flyout content start -->
+								<StackPanel>
+									<uc:DisplayControl/>
+								</StackPanel>
+								<!-- Flyout content End-->
+							</DockPanel>
+							<DockPanel
+                                VerticalAlignment="Bottom"
+                                DockPanel.Dock="Bottom">
+								<StackPanel
+									Background="Transparent"
+									HorizontalAlignment="Right"
+									Height="48">
+									<DockPanel
+										Height="48"
+										Background="Transparent"
+										Margin="0 0 5 0">
+										<Button HorizontalAlignment="Right"
+												Name="BtnDisplaySettings"
+												Height="36"
+												Width="36"
+												Margin="0 0 0 0"
+												Background="Transparent"
+												BorderBrush="Transparent"
+												Click="BtnDisplaySettings_OnClick">
+											<avalonia:MaterialIcon
+												Kind="CogOutline"
+												Width="16"
+												Height="16"
+												Foreground="LightGray"/>
+										</Button>
+									</DockPanel>
+								</StackPanel>
+							</DockPanel>
+						</Panel>
+						<Panel>
+							<Border CornerRadius="0 0 10 10"
+									BorderThickness="0"
+									ClipToBounds="True"
+									Background="#40000000"
+									Height="48"
+									VerticalAlignment="Bottom"
+									DockPanel.Dock="Bottom">
+							</Border>
+						</Panel>
+					</Panel>
+				</Border>
+			</ExperimentalAcrylicBorder>
+		</Panel>
+	</DockPanel>
 
 </Window>
