@@ -7,13 +7,13 @@ namespace DisplayControlFlyout.ViewModels
     {
         private readonly IMonitorService _monitorService;
 
-        public DisplayBrightViewModel(IMonitorService monitorService, PhysicalMonitorBrightnessController.MonitorInfo monitor)
+        public DisplayBrightViewModel(IMonitorService monitorService, PhysicalMonitorController.MonitorInfo monitor)
         {
             _monitorService = monitorService;
             Monitor = monitor;
         }
 
-        public PhysicalMonitorBrightnessController.MonitorInfo Monitor { get; init; }
+        public PhysicalMonitorController.MonitorInfo Monitor { get; init; }
 
         public uint Bright
         {

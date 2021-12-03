@@ -14,7 +14,6 @@
     <Compile Remove="Win\**" />
     <EmbeddedResource Remove="Assets\Images\**" />
     <EmbeddedResource Remove="Win\**" />
-    <Folder Include="Native\" />
     <None Remove="Assets\Images\**" />
     <None Remove="Win\**" />
     <AvaloniaResource Remove="Assets\bow.ico" />

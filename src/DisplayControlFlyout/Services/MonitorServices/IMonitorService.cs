@@ -6,10 +6,10 @@ namespace DisplayControlFlyout.Services.MonitorServices
     public interface IMonitorService
     {
         void SetAll(uint bright);
-        void Set(uint bright, PhysicalMonitorBrightnessController.MonitorInfo monitor);
+        void Set(uint bright, PhysicalMonitorController.MonitorInfo monitor);
         uint GetAverage();
-        uint Get(PhysicalMonitorBrightnessController.MonitorInfo monitor);
+        uint Get(PhysicalMonitorController.MonitorInfo monitor);
         void Refresh();
-        List<PhysicalMonitorBrightnessController.MonitorInfo> GetMonitors();
+        List<PhysicalMonitorController.MonitorInfo> GetMonitors();
     }
 }

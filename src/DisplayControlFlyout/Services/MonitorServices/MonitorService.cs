@@ -7,40 +7,40 @@ namespace DisplayControlFlyout.Services.MonitorServices
 {
     public class MonitorService : IMonitorService, IDisposable
     {
-        private readonly PhysicalMonitorBrightnessController _brightnessController = new PhysicalMonitorBrightnessController();
+        private readonly PhysicalMonitorController _controller = new PhysicalMonitorController();
         public void SetAll(uint bright)
         {
-            _brightnessController.SetAll(bright);
+            _controller.SetAll(bright);
         }
 
-        public void Set(uint bright, PhysicalMonitorBrightnessController.MonitorInfo monitor)
+        public void Set(uint bright, PhysicalMonitorController.MonitorInfo monitor)
         {
-            _brightnessController.Set(bright, monitor);
+            _controller.Set(bright, monitor);
         }
 
         public uint GetAverage()
         {
-            return _brightnessController.GetAverage();
+            return _controller.GetAverage();
         }
 
-        public uint Get(PhysicalMonitorBrightnessController.MonitorInfo monitor)
+        public uint Get(PhysicalMonitorController.MonitorInfo monitor)
         {
-            return _brightnessController.Get(monitor);
+            return _controller.Get(monitor);
         }
 
         public void Refresh()
         {
-            _brightnessController.UpdateMonitors();
+            _controller.UpdateMonitors();
         }
 
-        public List<PhysicalMonitorBrightnessController.MonitorInfo> GetMonitors()
+        public List<PhysicalMonitorController.MonitorInfo> GetMonitors()
         {
-            return _brightnessController.Monitors.ToList();
+            return _controller.Monitors.ToList();
         }
 
         public void Dispose()
         {
-            _brightnessController?.Dispose();
+            _controller?.Dispose();
         }
     }
 }

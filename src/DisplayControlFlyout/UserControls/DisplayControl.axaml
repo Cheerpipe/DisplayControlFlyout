@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="280" d:DesignHeight="400"
+             mc:Ignorable="d" d:DesignWidth="380" d:DesignHeight="400"
              x:Class="DisplayControlFlyout.UserControls.DisplayControl"
             Background="Transparent">
 
@@ -27,9 +27,8 @@
 			</StackPanel>
 			<!-- Action buttons -->
 			<StackPanel Margin="0 30 0 0">
-				<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,40,Auto,Auto">
+				<Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,40,Auto,Auto">
 					<ToggleButton
-					  Name="BtnGlobalHDR"
 					  Grid.Row="0"
 					  Grid.Column="0"
 					  Width="110"
@@ -42,7 +41,6 @@
 						  Height="48"/>
 					</ToggleButton>
 					<ToggleButton
-					  Name="BtnTelevision"
 					  Grid.Row="0"
 					  Grid.Column="1"
 					  Width="110"
@@ -54,6 +52,18 @@
 						  Width="24"
 						  Height="24"/>
 					</ToggleButton>
+                    <Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Width="110"
+                        Height="48"
+                        HorizontalAlignment="Center"
+                        Command="{Binding TurnOffDisplays}">
+                        <avalonia:MaterialIcon
+                            Kind="MoonWaningCrescent"
+                            Width="24"
+                            Height="24"/>
+                    </Button>
 					<TextBlock
 					  Grid.Row="1"
 					  Grid.Column="0"
@@ -70,6 +80,14 @@
 					  FontSize="12">
 						Television
 					</TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Padding="0 5 0 0"
+                        FontSize="12">
+                        Turn off displays
+                    </TextBlock>
 				</Grid>
 			</StackPanel>
 			<!-- Action buttons -->
@@ -96,3 +114,4 @@
 	</Panel>
 	<!-- Flyout content End-->
 </UserControl>
+

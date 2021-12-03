@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using DisplayControlFlyout.Extensions;
+using DisplayControlFlyout.Native;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.MonitorServices;
@@ -59,15 +60,8 @@ namespace DisplayControlFlyout.ViewModels
         public List<ApplicableDisplayMode?> ApplicableDisplayModes => _applicableDisplayModes;
         public ApplicableDisplayMode? SelectedApplicableDisplayMode
         {
-            get
-            {
-                return _currentDisplayMode;
-            }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _currentDisplayMode, value);
-
-            }
+            get => _currentDisplayMode;
+            set => this.RaiseAndSetIfChanged(ref _currentDisplayMode, value);
         }
 
         // ReSharper disable once InconsistentNaming
@@ -79,6 +73,11 @@ namespace DisplayControlFlyout.ViewModels
                 _flyoutService.CloseAndRelease();
                 HDR.SetGlobalHDRState(value);
             }
+        }
+
+        public void TurnOffDisplays()
+        {
+            PhysicalMonitorController.TurnDisplayOff();
         }
 
         public bool Television
