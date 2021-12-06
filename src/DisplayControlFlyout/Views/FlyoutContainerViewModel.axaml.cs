@@ -85,6 +85,17 @@ namespace DisplayControlFlyout.Views
             };
             marginTransition.Apply(mainContainerPanel, Avalonia.Animation.Clock.GlobalClock, TransformOperations.Parse("translate(-20px, 0px)"), TransformOperations.Parse("translate(0px, 0px)"));
 
+            StackPanel powerModeRepeater = this.Find<StackPanel>("DisplayModesPanel");
+            TransformOperationsTransition powerModeRepeaterMarginTransition = new TransformOperationsTransition()
+            {
+                Property = Panel.RenderTransformProperty,
+                Duration = TimeSpan.FromMilliseconds(ContentRevealAnimationDelay / 2f),
+                Easing = new ExponentialEaseOut()
+            };
+            powerModeRepeaterMarginTransition.Apply(powerModeRepeater, Avalonia.Animation.Clock.GlobalClock, TransformOperations.Parse("scale(1, 0.5)"), TransformOperations.Parse("scale(1,1)"));
+
+
+
             await Task.Delay(ShowAnimationDelay);
         }
 
