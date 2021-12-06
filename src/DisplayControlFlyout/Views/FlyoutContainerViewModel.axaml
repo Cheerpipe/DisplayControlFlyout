@@ -5,7 +5,6 @@
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:uc="clr-namespace:DisplayControlFlyout.UserControls"
         xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-        xmlns:viewModels="clr-namespace:DisplayControlFlyout.ViewModels"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="{Binding FlyoutHeight}"
         x:Class="DisplayControlFlyout.Views.FlyoutContainer"
         Title="Display Control Flyout"
@@ -56,109 +55,7 @@
                                 </StackPanel>
 								<!-- Flyout content start -->
 								<StackPanel>
-									<Panel Margin="0 15 0 0">
-										<StackPanel >
-											<StackPanel Margin="0 0 0 0"  Name="DisplayModesPanel">
-												<ListBox Items="{Binding ApplicableDisplayModes}"  SelectedItem="{Binding SelectedApplicableDisplayMode}" Name="DisplayModeRepeater">
-													<ListBox.ItemTemplate>
-														<DataTemplate>
-															<Border  CornerRadius="4" Padding="4">
-																<StackPanel Orientation="Horizontal" Spacing="10">
-																	<Image Source="{Binding Image}" Height="36"/>
-																	<TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>
-																</StackPanel>
-															</Border>
-														</DataTemplate>
-													</ListBox.ItemTemplate>
-												</ListBox>
-											</StackPanel>
-											<!-- Action buttons -->
-											<StackPanel Margin="0 30 0 0">
-												<Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,40,Auto,Auto">
-													<ToggleButton
-													  Grid.Row="0"
-													  Grid.Column="0"
-													  Width="110"
-													  Height="48"
-													  HorizontalAlignment="Center"
-													  IsChecked="{Binding GlobalHDR}">
-														<avalonia:MaterialIcon
-														  Kind="Hdr"
-														  Width="48"
-														  Height="48"/>
-													</ToggleButton>
-													<ToggleButton
-													  Grid.Row="0"
-													  Grid.Column="1"
-													  Width="110"
-													  Height="48"
-													  HorizontalAlignment="Center"
-													  IsChecked="{Binding Television}">
-														<avalonia:MaterialIcon
-														  Kind="Television"
-														  Width="24"
-														  Height="24"/>
-													</ToggleButton>
-													<Button
-														Grid.Row="0"
-														Grid.Column="2"
-														Width="110"
-														Height="48"
-														HorizontalAlignment="Center"
-														Command="{Binding TurnOffDisplays}">
-														<avalonia:MaterialIcon
-															Kind="MoonWaningCrescent"
-															Width="24"
-															Height="24"/>
-													</Button>
-													<TextBlock
-													  Grid.Row="1"
-													  Grid.Column="0"
-													  HorizontalAlignment="Center"
-													  Padding="0 5 0 0"
-													  FontSize="12">
-														Global HDR
-													</TextBlock>
-													<TextBlock
-													  Grid.Row="1"
-													  Grid.Column="1"
-													  HorizontalAlignment="Center"
-													  Padding="0 5 0 0"
-													  FontSize="12">
-														Television
-													</TextBlock>
-													<TextBlock
-														Grid.Row="1"
-														Grid.Column="2"
-														HorizontalAlignment="Center"
-														Padding="0 5 0 0"
-														FontSize="12">
-														Turn off displays
-													</TextBlock>
-												</Grid>
-											</StackPanel>
-											<!-- Action buttons -->
-
-											<!-- Bright Slider Start -->
-											<ItemsRepeater Items="{Binding Monitors}">
-												<ItemsRepeater.ItemTemplate>
-													<DataTemplate DataType="viewModels:DisplayBrightViewModel">
-														<StackPanel Margin="5 5 5 5" >
-															<Grid ColumnDefinitions="25,*,20" RowDefinitions="50"  Margin="0">
-																<avalonia:MaterialIcon Kind="Brightness5" Grid.Row="0" Grid.Column="0"></avalonia:MaterialIcon>
-																<Slider
-																	Grid.Row="0"
-																	Grid.Column="1"
-																	Value="{Binding Bright}"/>
-																<avalonia:MaterialIcon Kind="Brightness7" Grid.Row="0" Grid.Column="2"></avalonia:MaterialIcon>
-															</Grid>
-														</StackPanel>
-													</DataTemplate>
-												</ItemsRepeater.ItemTemplate>
-												<!-- Bright Slider End -->
-											</ItemsRepeater>
-										</StackPanel>
-									</Panel>
+									<uc:DisplayControl Margin="0 15 0 0"/>
 								</StackPanel>
 								<!-- Flyout content End-->
 							</DockPanel>
