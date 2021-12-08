@@ -12,24 +12,20 @@
         ShowInTaskbar="false"
         CanResize="False"
         Topmost="False"
-        SystemDecorations="BorderOnly"
+        SystemDecorations="None"
         Background="Transparent"
         TransparencyLevelHint="AcrylicBlur"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="-1"
-        UseLayoutRounding="False"
+        UseLayoutRounding="True"
         Height="{Binding FlyoutHeight}">
-
 	<DockPanel Width="400" Height="{Binding FlyoutHeight}" HorizontalAlignment="Left" >
 		<Panel HorizontalAlignment="Left" Name="FlyoutPanelContainer">
 			<ExperimentalAcrylicBorder IsHitTestVisible="True" CornerRadius="10">
 				<ExperimentalAcrylicBorder.Material>
 					<ExperimentalAcrylicMaterial
-						BackgroundSource="None"
-						TintColor="#99000000"
-						TintOpacity="0.65"
-						MaterialOpacity="0.65"/>
+						BackgroundSource="Digger"
+						TintColor="Black"
+						TintOpacity="1"
+						MaterialOpacity="0.75"/>
 				</ExperimentalAcrylicBorder.Material>
 				<Border CornerRadius="10 10 10 10"
 						BorderBrush="#414141"
