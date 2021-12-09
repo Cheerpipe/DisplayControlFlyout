@@ -27,7 +27,7 @@ namespace DisplayControlFlyout.Services
         {
 
             var n = Kernel.Get<INotificationServices>();
-            n.Show("Display mode changed", $"New display mode is {mode.ToString().Humanize()}", DisplayMode.ExtendedHorizontal.ToUriPackImage());
+            n.Show("Display mode changed", $"New display mode is {mode.ToString().Humanize()}", mode.ToUriPackImage());
         }
 
         // Specific for my setup
@@ -37,7 +37,11 @@ namespace DisplayControlFlyout.Services
             {
                 var paths = PathInfo.GetActivePaths();
 
-                if (paths.Count(p => p.IsInUse) == 3) 
+
+                if (paths.Count(p => p.IsInUse) == 1 && paths[0].TargetsInfo.Count(i => i.DisplayTarget.FriendlyName == "VG27A") == 1 && paths[0].TargetsInfo.Count(i => i.DisplayTarget.FriendlyName == "LG TV") == 1)// Hay uno en uso con un monitor y la tv
+                    return DisplayMode.DuplicatedSingle;
+
+                if (paths.Count(p => p.IsInUse) == 3)
                     return DisplayMode.ExtendedAll;
 
                 if (paths.Count(p => p.IsInUse) == 2 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo[0].DisplayTarget.FriendlyName == "VG27A" && p.IsInUse && p.TargetsInfo.Length == 1) == 2) //Hay dos en uso y cada uno tiene un único path que es un monitor
@@ -49,8 +53,13 @@ namespace DisplayControlFlyout.Services
                 if (paths.Count(p => p.IsInUse) == 1 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo[0].DisplayTarget.FriendlyName == "LG TV") == 1) // Hay uno en uso y es la TV
                     return DisplayMode.Tv;
 
+                if ((paths.Count(p => p.IsInUse) == 2 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo[0].DisplayTarget.FriendlyName == "VG27A") == 1) && (paths.Count(p => p.IsInUse) == 2 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo[0].DisplayTarget.FriendlyName == "LG TV") == 1))
+                    return DisplayMode.ExtendedSingle;
+
                 if (paths.Count(p => p.IsInUse) == 2 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo.Length == 2) == 1 && paths.Count(p => p.IsCloneMember == false && p.IsInUse && p.TargetsInfo.Length == 1) == 1) // Hay dos en uso y uno de los dos tiene dos monitores
                     return DisplayMode.ExtendedDuplicated;
+
+
 
                 return DisplayMode.Unknown;
 
@@ -91,7 +100,7 @@ namespace DisplayControlFlyout.Services
                 if (successCount >= expectedSuccessCount)
                 {
                     success = true;
-                    ShowToast(currentMode);
+                    ShowToast(mode);
                     break;
                 }
                 await Task.Delay(successCount == 0 ? modeChangeRetryFailDelay : modeChangeRetrySuccessDelay);
@@ -100,7 +109,8 @@ namespace DisplayControlFlyout.Services
 
             timeoutDisplayModeWatch.Stop();
 
-            if (!success) return;
+            if (!success) 
+                return;
 
             for (int i = 0; i < 2; i++)
             {
@@ -128,12 +138,15 @@ namespace DisplayControlFlyout.Services
                 case DisplayMode.ExtendedDuplicated:
                     SetMode("Extended horizontal duplicated vertical.xml", DisplayMode.ExtendedDuplicated, true);
                     break;
+                case DisplayMode.ExtendedSingle:
+                    SetMode("Extended single.xml", DisplayMode.ExtendedSingle, true);
+                    break;
+                case DisplayMode.DuplicatedSingle:
+                    SetMode("Duplicated single.xml", DisplayMode.DuplicatedSingle, true);
+                    break;
                 case DisplayMode.Tv:
                     if (DisplayManager.GetCurrentMode() != DisplayMode.Tv)
                         SetMode("TV.xml", DisplayMode.Tv, true);
-                    break;
-                case DisplayMode.DuplicatedSingle:
-                case DisplayMode.ExtendedSingle:
                     break;
                 case DisplayMode.Unknown:
                     break;
