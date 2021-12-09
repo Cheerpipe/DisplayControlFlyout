@@ -12,7 +12,7 @@ namespace DisplayControlFlyout.IoC
     {
         public override void Load()
         {
-            Bind<ITrayIconService>().To<TrayIconService>().InSingletonScope();
+            Bind<ITrayIconService>().To<WindowsTrayIconService>().InSingletonScope();
             Bind<IFlyoutService>().To<FlyoutService>().InSingletonScope();
             Bind<IMonitorService>().To<MonitorService>().InSingletonScope();
             Bind<INotificationServices>().To<WindowsNotificationService>().InSingletonScope();

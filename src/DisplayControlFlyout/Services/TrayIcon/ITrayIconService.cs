@@ -8,5 +8,6 @@ namespace DisplayControlFlyout.Services.TrayIcon
         void Hide();
         //TODO Move out of here
         void SetIcon(WindowIcon icon);
+        void Refresh();
     }
 }

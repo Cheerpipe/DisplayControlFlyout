@@ -1,4 +1,4 @@
-﻿using DisplayControlFlyout.Native;
+﻿using DisplayControlFlyout.Platform.Windows;
 using DisplayControlFlyout.Services.MonitorServices;
 
 namespace DisplayControlFlyout.ViewModels

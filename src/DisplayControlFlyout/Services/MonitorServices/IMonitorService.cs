@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DisplayControlFlyout.Native;
+using DisplayControlFlyout.Platform.Windows;
 
 namespace DisplayControlFlyout.Services.MonitorServices
 {

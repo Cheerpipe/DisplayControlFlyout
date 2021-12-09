@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
@@ -12,6 +13,7 @@ namespace DisplayControlFlyout.Services.TrayIcon
     {
         private readonly IFlyoutService _flyoutService;
         private readonly AvaloniaTrayIcon _trayIcon;
+        private readonly Timer _alwaysVisibletimer;
 
         public TrayIconService(IFlyoutService flyoutService)
         {
@@ -22,6 +24,20 @@ namespace DisplayControlFlyout.Services.TrayIcon
             var icon = new WindowIcon(DisplayMode.DuplicatedSingle.ToBitMap());
             _trayIcon.Icon = icon;
             _trayIcon.Clicked += TrayIcon_Clicked;
+            _alwaysVisibletimer = new Timer(1000);
+            _alwaysVisibletimer.Elapsed += _alwaysVisibletimer_Elapsed;
+        }
+
+        public void Refresh()
+        {
+            _trayIcon.IsVisible = false;
+            _trayIcon.IsVisible = true;
+        }
+
+        private void _alwaysVisibletimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!_trayIcon.IsVisible)
+                _trayIcon.IsVisible = true;
         }
 
         public void Show()

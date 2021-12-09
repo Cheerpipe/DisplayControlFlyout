@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using DisplayControlFlyout.Extensions;
-using DisplayControlFlyout.Native;
+using DisplayControlFlyout.Platform.Windows;
 using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.MonitorServices;

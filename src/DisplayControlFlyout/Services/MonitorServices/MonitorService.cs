@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DisplayControlFlyout.Native;
+using DisplayControlFlyout.Platform.Windows;
 
 namespace DisplayControlFlyout.Services.MonitorServices
 {
