@@ -15,6 +15,8 @@ using Microsoft.Win32;
 using Application = Avalonia.Application;
 using CommandLine;
 using System;
+using Avalonia.Controls.ApplicationLifetimes;
+using System.Threading.Tasks;
 
 namespace DisplayControlFlyout
 {
@@ -54,8 +56,10 @@ namespace DisplayControlFlyout
                   {
                       if (Enum.TryParse(o.Mode, true, out DisplayMode sMode))
                       {
-                          DisplayManager.SetMode(sMode, false).Wait();
-                          exit = true; ;
+                          Task.Run(async () => {
+                              await DisplayManager.SetMode(sMode, false).ConfigureAwait(false);
+                          }).Wait();
+                          exit = true;
                       }
 
                       if (o.Hdr != null)
@@ -65,7 +69,14 @@ namespace DisplayControlFlyout
                       }
                   });
 
-            if (exit) return;
+            if (exit)
+            {
+                if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                {
+                    desktop.Shutdown();
+                }
+                return;
+            }
 
             // Instance control
             IInstanceService instanceService = Kernel.Get<IInstanceService>();
