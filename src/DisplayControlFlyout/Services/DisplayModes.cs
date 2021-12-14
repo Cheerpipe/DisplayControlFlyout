@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using DisplayControlFlyout.Extensions;
 using DisplayControlFlyout.IoC;
@@ -70,13 +71,13 @@ namespace DisplayControlFlyout.Services
             }
         }
 
-        public static async void SetMode(string profileFileName, DisplayMode mode, bool useTv)
+        public static async Task SetMode(string profileFileName, DisplayMode mode, bool useTv, bool showToast)
         {
             string monitorSwitcherPath = @"D:\Warez\Utiles\MonitorProfileSwitcher_v0700\MonitorSwitcher.exe";
             int expectedSuccessCount = 6;
             int modeChangeRetrySuccessDelay = 500;
-            int modeChangeRetryFailDelay = 2000;
-            int modeChangeRetryTimeout = 15000;
+            int modeChangeRetryFailDelay = 1000;
+            int modeChangeRetryTimeout = 20000;
 
             int successCount = 0;
             Stopwatch timeoutDisplayModeWatch = new Stopwatch();
@@ -103,56 +104,60 @@ namespace DisplayControlFlyout.Services
                     ShowToast(mode);
                     break;
                 }
-                await Task.Delay(successCount == 0 ? modeChangeRetryFailDelay : modeChangeRetrySuccessDelay);
+                await Task.Delay(successCount == 0 ? modeChangeRetryFailDelay : modeChangeRetrySuccessDelay).ConfigureAwait(false);
+                //Thread.Sleep(successCount == 0 ? modeChangeRetryFailDelay : modeChangeRetrySuccessDelay);
 
             } while (timeoutDisplayModeWatch.ElapsedMilliseconds < modeChangeRetryTimeout);
 
             timeoutDisplayModeWatch.Stop();
 
-            if (!success) 
+            if (!success)
                 return;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 Television.SetPowerOnState(useTv);
-                await Task.Delay(500);
+                await Task.Delay(1000);
             }
         }
 
-        public static void SetMode(DisplayMode mode)
+        public static async Task SetMode(DisplayMode mode, bool showToast = true)
         {
-            Stopwatch timeoutDisplayModeWatch = new Stopwatch();
-            timeoutDisplayModeWatch.Start();
+            await Task.Run(() => {
+                Stopwatch timeoutDisplayModeWatch = new Stopwatch();
+                timeoutDisplayModeWatch.Start();
 
-            switch (mode)
-            {
-                case DisplayMode.Single:
-                    SetMode("Single.xml", DisplayMode.Single, false);
-                    break;
-                case DisplayMode.ExtendedHorizontal:
-                    SetMode("Extended horizontal.xml", DisplayMode.ExtendedHorizontal, false);
-                    break;
-                case DisplayMode.ExtendedAll:
-                    SetMode("Extended all.xml", DisplayMode.ExtendedAll, true);
-                    break;
-                case DisplayMode.ExtendedDuplicated:
-                    SetMode("Extended horizontal duplicated vertical.xml", DisplayMode.ExtendedDuplicated, true);
-                    break;
-                case DisplayMode.ExtendedSingle:
-                    SetMode("Extended single.xml", DisplayMode.ExtendedSingle, true);
-                    break;
-                case DisplayMode.DuplicatedSingle:
-                    SetMode("Duplicated single.xml", DisplayMode.DuplicatedSingle, true);
-                    break;
-                case DisplayMode.Tv:
-                    if (DisplayManager.GetCurrentMode() != DisplayMode.Tv)
-                        SetMode("TV.xml", DisplayMode.Tv, true);
-                    break;
-                case DisplayMode.Unknown:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-            }
+                switch (mode)
+                {
+                    case DisplayMode.Single:
+                        SetMode("Single.xml", DisplayMode.Single, false, showToast).Wait();
+                        break;
+                    case DisplayMode.ExtendedHorizontal:
+                        SetMode("Extended horizontal.xml", DisplayMode.ExtendedHorizontal, false, showToast).Wait();
+                        break;
+                    case DisplayMode.ExtendedAll:
+                        SetMode("Extended all.xml", DisplayMode.ExtendedAll, true, showToast).Wait();
+                        break;
+                    case DisplayMode.ExtendedDuplicated:
+                        SetMode("Extended horizontal duplicated vertical.xml", DisplayMode.ExtendedDuplicated, true, showToast).Wait();
+                        break;
+                    case DisplayMode.ExtendedSingle:
+                        SetMode("Extended single.xml", DisplayMode.ExtendedSingle, true, showToast).Wait();
+                        break;
+                    case DisplayMode.DuplicatedSingle:
+                        SetMode("Duplicated single.xml", DisplayMode.DuplicatedSingle, true, showToast).Wait();
+                        break;
+                    case DisplayMode.Tv:
+                        if (DisplayManager.GetCurrentMode() != DisplayMode.Tv)
+                            SetMode("TV.xml", DisplayMode.Tv, true, showToast).Wait();
+                        break;
+                    case DisplayMode.Unknown:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                }
+            });
+           
         }
     }
 }

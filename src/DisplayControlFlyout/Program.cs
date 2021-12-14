@@ -13,6 +13,8 @@ using DisplayControlFlyout.Services.TrayIcon;
 using DisplayControlFlyout.ViewModels;
 using Microsoft.Win32;
 using Application = Avalonia.Application;
+using CommandLine;
+using System;
 
 namespace DisplayControlFlyout
 {
@@ -37,21 +39,43 @@ namespace DisplayControlFlyout
         // The entry point. Things aren't ready yet, so at this point
         // you shouldn't use any Avalonia types or anything that expects
         // a SynchronizationContext to be ready
-        public static void Main(string[] args)
-            => BuildAvaloniaApp().Start(AppMain, args);
+        public static void Main(string[] args) => BuildAvaloniaApp().Start(AppMain, args);
 
         // Application entry point. Avalonia is completely initialized.
         static void AppMain(Application app, string[] args)
         {
-            // A cancellation token source that will be used to stop the main loop
-            var cts = new CancellationTokenSource();
-
-
-            // Do you startup code here
+            // Start IoC Kernel
             Kernel.Initialize(new Bindings());
 
-            // Do you startup code here
+            // Parse command line options
+            bool exit = false;
+            Parser.Default.ParseArguments<CommandLineOptions>(args)
+                  .WithParsed<CommandLineOptions>(o =>
+                  {
+                      if (Enum.TryParse(o.Mode, true, out DisplayMode sMode))
+                      {
+                          DisplayManager.SetMode(sMode, false).Wait();
+                          exit = true; ;
+                      }
 
+                      if (o.Hdr != null)
+                      {
+                          HDR.SetGlobalHDRState((bool)o.Hdr);
+                          exit = true;
+                      }
+                  });
+
+            if (exit) return;
+
+            // Instance control
+            IInstanceService instanceService = Kernel.Get<IInstanceService>();
+            if (instanceService.IsAlreadyRunning())
+            {
+                return;
+            }
+
+            // A cancellation token source that will be used to stop the main loop
+            var cts = new CancellationTokenSource();
 
             IFlyoutService flyoutService = Kernel.Get<IFlyoutService>();
             flyoutService.SetPopulateViewModelFunc(() =>

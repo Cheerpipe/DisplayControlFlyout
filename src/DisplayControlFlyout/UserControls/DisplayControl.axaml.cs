@@ -51,8 +51,11 @@ namespace DisplayControlFlyout.UserControls
         {
             List<ListBoxItem> itemContainers = _displayModeRepeater.ItemContainerGenerator.Containers.Select(p => p.ContainerControl).Cast<ListBoxItem>().ToList();
             _displayModeRepeater.SelectedItem = itemContainers.FirstOrDefault(ic => ic.IsFocused)?.DataContext;
-            DisplayManager.SetMode((((ApplicableDisplayMode)_displayModeRepeater.SelectedItem!)).Mode);
+
+            DisplayMode newMode = (((ApplicableDisplayMode)_displayModeRepeater.SelectedItem!)).Mode;
             Kernel.Get<IFlyoutService>().CloseAndRelease();
+            DisplayManager.SetMode(newMode);
+            ;
         }
     }
 }

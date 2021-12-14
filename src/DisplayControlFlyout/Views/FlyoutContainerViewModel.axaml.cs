@@ -64,7 +64,6 @@ namespace DisplayControlFlyout.Views
 
             Show();
 
-
             Clock = Avalonia.Animation.Clock.GlobalClock;
             IntegerTransition showTransition = new IntegerTransition()
             {

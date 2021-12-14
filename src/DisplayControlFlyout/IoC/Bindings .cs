@@ -17,6 +17,7 @@ namespace DisplayControlFlyout.IoC
             Bind<IMonitorService>().To<MonitorService>().InSingletonScope();
             Bind<INotificationServices>().To<WindowsNotificationService>().InSingletonScope();
             Bind<IKeyboardHookServices>().To<KeyboardHookServices>().InSingletonScope();
+            Bind<IInstanceService>().To<InstanceService>().InSingletonScope();
         }
     }
 }
