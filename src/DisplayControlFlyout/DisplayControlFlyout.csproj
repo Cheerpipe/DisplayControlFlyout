@@ -74,7 +74,7 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
-    <PackageReference Include="FluentAvaloniaUI" Version="1.1.6" />
+    <PackageReference Include="FluentAvaloniaUI" Version="1.1.7" />
     <PackageReference Include="Humanizer.Core" Version="2.13.14" />
     <PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
     <PackageReference Include="Ninject" Version="3.3.4" />

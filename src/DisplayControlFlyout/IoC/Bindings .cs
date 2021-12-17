@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls.Notifications;
-using DisplayControlFlyout.Services;
+﻿using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.Services.MonitorServices;
