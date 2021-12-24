@@ -5,6 +5,7 @@ using Avalonia.Input;
 using DisplayControlFlyout.Platform.Windows;
 using DisplayControlFlyout.ViewModels;
 using DisplayControlFlyout.Views;
+using FluentAvalonia.Interop;
 using Ninject;
 
 namespace DisplayControlFlyout.Services.FlyoutServices
@@ -43,6 +44,11 @@ namespace DisplayControlFlyout.Services.FlyoutServices
                 if (e.Key == Key.Escape)
                     _ = CloseAndRelease();
             };
+
+            FlyoutWindowInstance.Topmost = true;
+            uint currentChildLong = NativeMethods.GetWindowLong(FlyoutWindowInstance.PlatformImpl.Handle.Handle, (int)WindowLongParam.GWL_EXSTYLE);
+            NativeMethods.SetWindowLong(FlyoutWindowInstance.PlatformImpl.Handle.Handle, (int)WindowLongParam.GWL_EXSTYLE,
+                currentChildLong | (uint)WindowStyles.WS_POPUPWINDOW);
 
             if (animate)
                 await FlyoutWindowInstance.ShowAnimated();

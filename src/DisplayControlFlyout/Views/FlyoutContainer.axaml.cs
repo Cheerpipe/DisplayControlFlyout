@@ -10,6 +10,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Transformation;
 using Avalonia.ReactiveUI;
+using DisplayControlFlyout.Platform.Windows;
 using DisplayControlFlyout.ViewModels;
 using ReactiveUI;
 
@@ -211,6 +212,11 @@ namespace DisplayControlFlyout.Views
             get => GetValue(VerticalPositionProperty);
             set
             {
+                if (PlatformImpl != null)
+                {
+                    NativeMethods.SetWindowRgn(PlatformImpl.Handle.Handle, NativeMethods.CreateRectRgn(0, 0, (int)Width, _screenHeight - value), true);
+                }
+
                 SetValue(VerticalPositionProperty, value);
                 Position = new PixelPoint(Position.X, value);
             }
