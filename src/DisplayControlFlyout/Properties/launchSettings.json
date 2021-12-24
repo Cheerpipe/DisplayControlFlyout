@@ -1,8 +1,7 @@
 {
   "profiles": {
     "DisplayControlFlyout": {
-      "commandName": "Project",
-      "commandLineArgs": "-m single"
+      "commandName": "Project"
     }
   }
 }

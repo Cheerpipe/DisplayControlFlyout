@@ -44,8 +44,8 @@ namespace DisplayControlFlyout.Views
         public int ResizeAnimationDelay { get; set; } = 200;
         public int FlyoutSpacing { get; set; } = 12;
 
-      
-        public async Task ShowAnimated(bool isPreload = false)
+
+        public async Task ShowAnimated()
         {
             PointerPressed += FlyoutPanelContainer_PointerPressed;
             PointerReleased += FlyoutPanelContainer_PointerReleased;
@@ -56,9 +56,6 @@ namespace DisplayControlFlyout.Views
             WindowStartupLocation = WindowStartupLocation.Manual;
             Width = 400;
             //Height = 650;
-
-            if (isPreload) 
-                WindowState = WindowState.Minimized;
 
             Position = new PixelPoint(_screenWidth - (int)(Width + 12), Position.Y);
 
@@ -72,8 +69,7 @@ namespace DisplayControlFlyout.Views
                 Easing = new ExponentialEaseOut()
             };
 
-            if (!isPreload)
-                showTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, _screenHeight, GetTargetVerticalPosition());
+            showTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, _screenHeight, GetTargetVerticalPosition());
 
             Panel mainContainerPanel = this.Find<Panel>("MainContainerPanel");
             TransformOperationsTransition marginTransition = new TransformOperationsTransition()
@@ -154,6 +150,7 @@ namespace DisplayControlFlyout.Views
                 Easing = new CircularEaseIn(),
             };
 
+            Activate();
             closeTransition.Apply(this, Avalonia.Animation.Clock.GlobalClock, VerticalPosition, _screenHeight);
             await Task.Delay(CloseAnimationDelay);
             Close();
