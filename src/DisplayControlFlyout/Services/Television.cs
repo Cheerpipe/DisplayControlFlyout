@@ -35,7 +35,7 @@ namespace DisplayControlFlyout.Services
             string service = "send_command";
             string postData = "{ \"entity_id\": \"remote.control_remoto_dormitorio_pequeno_remote\" , \"device\": \"" + "lg_tv" + "\" , \"command\": \"" + "turn_" + (powerOnState ? "on" : "off") + "\"}";
 
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(string.Format("https://192.168.1.16:8123/api/services/remote/{0}", service));
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(string.Format("http://192.168.1.53:8123/api/services/remote/{0}", service));
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Headers["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2YmIwNTM3M2I3MTY0MGQyOTc3YWQwMzNlNmVmYTk2MiIsImlhdCI6MTU5MjI1OTg2MSwiZXhwIjoxOTA3NjE5ODYxfQ.-VcGCT-aztII480YwTErOEKk1fmEpajvizLlyalbSL0";
             httpWebRequest.Method = "POST";
@@ -64,7 +64,7 @@ namespace DisplayControlFlyout.Services
             string postData = "{ \"entity_id\": \"remote.control_remoto_dormitorio_pequeno_remote\" , \"device\": \"" + "lg_tv" + "\" , \"command\": \"" + "set_hdmi" + (input) + "\"}";
 
 
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(string.Format("https://192.168.1.16:8123/api/services/remote/{0}", service));
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(string.Format("http://192.168.1.53:8123/api/services/remote/{0}", service));
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Headers["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2YmIwNTM3M2I3MTY0MGQyOTc3YWQwMzNlNmVmYTk2MiIsImlhdCI6MTU5MjI1OTg2MSwiZXhwIjoxOTA3NjE5ODYxfQ.-VcGCT-aztII480YwTErOEKk1fmEpajvizLlyalbSL0";
             httpWebRequest.Method = "POST";

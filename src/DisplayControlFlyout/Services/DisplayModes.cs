@@ -37,7 +37,6 @@ namespace DisplayControlFlyout.Services
             {
                 var paths = PathInfo.GetActivePaths();
 
-
                 if (paths.Count(p => p.IsInUse) == 1 && paths[0].TargetsInfo.Count(i => i.DisplayTarget.FriendlyName == "VG27A") == 1 && paths[0].TargetsInfo.Count(i => i.DisplayTarget.FriendlyName == "LG TV") == 1)// Hay uno en uso con un monitor y la tv
                     return DisplayMode.DuplicatedSingle;
 

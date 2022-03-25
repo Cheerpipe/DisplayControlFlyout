@@ -29,7 +29,7 @@ namespace DisplayControlFlyout.Views
             AvaloniaXamlLoader.Load(this);
 
 #if DEBUG
-            this.AttachDevTools();
+            this.AttachDevTools();:
 #endif
 
             _screenWidth = Screens.Primary.WorkingArea.Width;

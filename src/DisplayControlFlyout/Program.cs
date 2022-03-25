@@ -17,6 +17,8 @@ using CommandLine;
 using System;
 using Avalonia.Controls.ApplicationLifetimes;
 using System.Threading.Tasks;
+using ArtemisFlyout.Services;
+using ArtemisFlyout.Controllers;
 
 namespace DisplayControlFlyout
 {
@@ -109,6 +111,9 @@ namespace DisplayControlFlyout
             _keyboardHookServices.RegisterHotKey(ModifierKeys.Win | ModifierKeys.Shift, Keys.D);
             _keyboardHookServices.KeyPressed += _keyboardHookServices_KeyPressed;
 
+            var webServerService = Kernel.Get<IWebServerService>();
+            webServerService.AddController<DisplayRestController>();
+            webServerService.Start();
 
             // Start the main loop
             app.Run(RunCancellationToken);

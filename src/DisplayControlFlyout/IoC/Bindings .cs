@@ -1,4 +1,5 @@
-﻿using DisplayControlFlyout.Services;
+﻿using ArtemisFlyout.Services;
+using DisplayControlFlyout.Services;
 using DisplayControlFlyout.Services.FlyoutServices;
 using DisplayControlFlyout.Services.IKeyboardHookServices;
 using DisplayControlFlyout.Services.MonitorServices;
@@ -17,6 +18,7 @@ namespace DisplayControlFlyout.IoC
             Bind<INotificationServices>().To<WindowsNotificationService>().InSingletonScope();
             Bind<IKeyboardHookServices>().To<KeyboardHookServices>().InSingletonScope();
             Bind<IInstanceService>().To<InstanceService>().InSingletonScope();
+            Bind<IWebServerService>().To<WebServerService>().InSingletonScope();
         }
     }
 }
